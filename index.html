@@ -6,748 +6,943 @@
   <title>Caroline Siler — Wholesome Small Town Romance</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --cream: #fdf8f2;
-      --warm-white: #fffef9;
-      --blush: #e8c4b8;
-      --rose: #d4728a;
-      --deep-rose: #b5536b;
-      --burgundy: #8b1a3a;
-      --deep-burg: #6b1028;
-      --gold: #c9a84c;
-      --gold-light: #e8d199;
-      --sage: #7a9e7e;
-      --sage-light: #c5d4c2;
-      --charcoal: #2c2c2c;
-      --mid-gray: #6b6b6b;
-      --light-gray: #e8e4df;
-    }
+    :root{--cream:#fdf8f2;--warm-white:#fffef9;--blush:#e8c4b8;--rose:#d4728a;--deep-rose:#b5536b;--burgundy:#8b1a3a;--deep-burg:#6b1028;--gold:#c9a84c;--gold-light:#e8d199;--sage:#7a9e7e;--sage-light:#c5d4c2;--charcoal:#2c2c2c;--mid-gray:#6b6b6b;--light-gray:#e8e4df}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:"Lato",sans-serif;background:var(--cream);color:var(--charcoal);overflow-x:hidden}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: "Lato", sans-serif; background: var(--cream); color: var(--charcoal); overflow-x: hidden; }
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,248,242,0.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--blush);padding:0 3rem;height:66px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:"Dancing Script",cursive;font-size:1.7rem;color:var(--burgundy);text-decoration:none;letter-spacing:.02em}
+    .nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+    .nav-links a{text-decoration:none;font-size:.8rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mid-gray);transition:color .2s}
+    .nav-links a:hover{color:var(--burgundy)}
+    .nav-cta{background:var(--burgundy)!important;color:#fff!important;padding:.5rem 1.3rem;border-radius:2px}
+    .nav-cta:hover{background:var(--deep-burg)!important}
+    .mobile-menu-btn{display:none;background:none;border:none;cursor:pointer;font-size:1.5rem;color:var(--burgundy)}
+    .mobile-overlay{display:none;position:fixed;inset:0;z-index:150;background:rgba(0,0,0,.5)}
+    .mobile-overlay.open{display:block}
+    .mobile-drawer{position:fixed;top:0;right:-280px;width:280px;height:100%;background:var(--warm-white);z-index:151;transition:right .3s;padding:2rem 1.5rem;box-shadow:-4px 0 20px rgba(0,0,0,.15)}
+    .mobile-drawer.open{right:0}
+    .mobile-drawer-close{background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--burgundy);float:right}
+    .mobile-drawer ul{list-style:none;margin-top:2rem}
+    .mobile-drawer li{margin-bottom:1rem}
+    .mobile-drawer a{text-decoration:none;font-size:1rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mid-gray);transition:color .2s}
+    .mobile-drawer a:hover{color:var(--burgundy)}
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(253,248,242,0.97); backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--blush);
-      padding: 0 3rem; height: 66px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .nav-logo {
-      font-family: "Dancing Script", cursive; font-size: 1.7rem;
-      color: var(--burgundy); text-decoration: none; letter-spacing: 0.02em;
-    }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
-    .nav-links a {
-      text-decoration: none; font-size: 0.8rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid-gray);
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--burgundy); }
-    .nav-cta {
-      background: var(--burgundy) !important; color: #fff !important;
-      padding: 0.5rem 1.3rem; border-radius: 2px;
-    }
-    .nav-cta:hover { background: var(--deep-burg) !important; }
-    .cart-btn {
-      cursor: pointer; font-size: 1.1rem; position: relative;
-      color: var(--mid-gray); transition: color 0.2s;
-    }
-    .cart-btn:hover { color: var(--burgundy); }
-    .cart-badge {
-      position: absolute; top: -8px; right: -8px;
-      background: var(--rose); color: #fff;
-      font-size: 0.6rem; font-weight: 700;
-      width: 16px; height: 16px; border-radius: 50%;
-      display: none; align-items: center; justify-content: center;
-    }
+    /* HERO */
+    .hero-content{background:var(--warm-white);display:grid;grid-template-columns:380px 1fr;gap:0;max-width:1100px;margin:0 auto;box-shadow:0 8px 40px rgba(0,0,0,.1);position:relative;z-index:2;margin-top:-2px}
+    .hero-book-panel{background:linear-gradient(160deg,#1a0a12 0%,#3a0e1e 60%,#1a2a1a 100%);display:flex;align-items:center;justify-content:center;padding:3rem 2.5rem;position:relative;overflow:hidden}
+    .hero-book-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(201,168,76,.12) 0%,transparent 70%)}
+    .book-3d{position:relative;z-index:2}
+    .book-3d img{width:220px;border-radius:3px 8px 8px 3px;box-shadow:12px 12px 40px rgba(0,0,0,.6),-4px 0 12px rgba(0,0,0,.3),inset -6px 0 10px rgba(0,0,0,.2);display:block;transition:transform .35s}
+    .book-3d img:hover{transform:translateY(-6px) rotate(-1deg)}
+    .hero-text-panel{padding:3.5rem 3.5rem 3rem;display:flex;flex-direction:column;justify-content:center}
+    .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--rose);margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem}
+    .eyebrow::before{content:"";width:28px;height:1px;background:var(--rose);display:block}
+    .hero-text-panel h2{font-family:"Playfair Display",serif;font-size:clamp(2rem,3vw,2.8rem);color:var(--burgundy);line-height:1.15;margin-bottom:.4rem}
+    .hero-text-panel h2 em{font-style:italic;color:var(--deep-rose)}
+    .series-tag{font-family:"Dancing Script",cursive;font-size:1.15rem;color:var(--rose);margin-bottom:1.25rem}
+    .hero-desc{font-size:1rem;line-height:1.8;color:var(--mid-gray);margin-bottom:1.75rem;max-width:440px}
+    .hero-badges{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2rem}
+    .badge{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .75rem;border-radius:2px;background:var(--light-gray);color:var(--mid-gray)}
+    .badge.clean{background:#e8f5e9;color:#2e7d32}
+    .badge.audio{background:var(--sage-light);color:#2d5a30}
+    .hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+    .btn-primary{background:var(--burgundy);color:#fff;padding:.85rem 2rem;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--burgundy);transition:all .22s;display:inline-block;border-radius:2px;cursor:pointer;font-family:"Lato",sans-serif}
+    .btn-primary:hover{background:var(--deep-burg);border-color:var(--deep-burg)}
+    .btn-secondary{background:transparent;color:var(--burgundy);padding:.85rem 2rem;text-decoration:none;font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--blush);transition:all .22s;display:inline-block;border-radius:2px;cursor:pointer;font-family:"Lato",sans-serif}
+    .btn-secondary:hover{border-color:var(--burgundy)}
+    .coming-soon-bar{background:linear-gradient(135deg,var(--burgundy),var(--deep-rose));color:#fff;text-align:center;padding:1rem 2rem}
+    .coming-soon-bar p{font-size:.9rem;letter-spacing:.05em}
+    .coming-soon-bar strong{font-family:"Playfair Display",serif;font-style:italic;font-size:1.1rem}
 
-    /* ── HERO BANNER ── */
-    #hero {
-      padding-top: 66px;
-      position: relative; overflow: hidden;
-    }
-    .hero-banner {
-      width: 100%; display: block;
-      max-height: 340px; object-fit: cover; object-position: center 40%;
-    }
-    .hero-banner-overlay {
-      position: absolute; top: 66px; left: 0; right: 0;
-      height: 340px;
-      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 100%);
-      display: flex; align-items: flex-end; justify-content: center;
-      padding-bottom: 2.5rem;
-    }
-    .hero-tagline {
-      text-align: center; color: #fff;
-    }
-    .hero-tagline-badge {
-      display: inline-block;
-      background: rgba(139,26,58,0.85);
-      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.2em;
-      text-transform: uppercase; padding: 0.4rem 1.2rem; margin-bottom: 0.75rem;
-      border-radius: 2px;
-    }
-    .hero-tagline h1 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      font-style: italic; line-height: 1.2;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
-    }
+    /* HOW */
+    #how{background:var(--cream);padding:4.5rem 4rem;text-align:center}
+    .how-header{margin-bottom:3rem}
+    .how-header .section-title{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,3vw,2.4rem);color:var(--burgundy);margin-bottom:.5rem}
+    .how-header p{color:var(--mid-gray);font-size:.95rem;max-width:520px;margin:0 auto;line-height:1.7}
+    .how-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:960px;margin:0 auto;position:relative}
+    .how-steps::before{content:"";position:absolute;top:38px;left:13%;right:13%;height:1px;background:linear-gradient(90deg,transparent,var(--blush) 20%,var(--blush) 80%,transparent)}
+    .step{position:relative;z-index:1}
+    .step-num{width:56px;height:56px;border-radius:50%;background:var(--warm-white);border:2px solid var(--blush);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-family:"Playfair Display",serif;font-size:1.3rem;color:var(--burgundy);font-weight:700}
+    .step h4{font-family:"Playfair Display",serif;font-size:1rem;color:var(--burgundy);margin-bottom:.4rem}
+    .step p{font-size:.85rem;color:var(--mid-gray);line-height:1.65}
 
-    /* ── HERO CONTENT (book + intro) ── */
-    .hero-content {
-      background: var(--warm-white);
-      display: grid; grid-template-columns: 380px 1fr;
-      gap: 0; max-width: 1100px; margin: 0 auto;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.1);
-      position: relative; z-index: 2; margin-top: -2px;
-    }
-    .hero-book-panel {
-      background: linear-gradient(160deg, #1a0a12 0%, #3a0e1e 60%, #1a2a1a 100%);
-      display: flex; align-items: center; justify-content: center;
-      padding: 3rem 2.5rem;
-      position: relative; overflow: hidden;
-    }
-    .hero-book-panel::before {
-      content: "";
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 40%, rgba(201,168,76,0.12) 0%, transparent 70%);
-    }
-    .book-3d {
-      position: relative; z-index: 2;
-    }
-    .book-3d img {
-      width: 220px;
-      border-radius: 3px 8px 8px 3px;
-      box-shadow: 12px 12px 40px rgba(0,0,0,0.6), -4px 0 12px rgba(0,0,0,0.3), inset -6px 0 10px rgba(0,0,0,0.2);
-      display: block; transition: transform 0.35s;
-    }
-    .book-3d img:hover { transform: translateY(-6px) rotate(-1deg); }
-    .hero-text-panel {
-      padding: 3.5rem 3.5rem 3rem;
-      display: flex; flex-direction: column; justify-content: center;
-    }
-    .eyebrow {
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em;
-      text-transform: uppercase; color: var(--rose);
-      margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem;
-    }
-    .eyebrow::before { content: ""; width: 28px; height: 1px; background: var(--rose); display: block; }
-    .hero-text-panel h2 {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(2rem, 3vw, 2.8rem);
-      color: var(--burgundy); line-height: 1.15; margin-bottom: 0.4rem;
-    }
-    .hero-text-panel h2 em { font-style: italic; color: var(--deep-rose); }
-    .series-tag {
-      font-family: "Dancing Script", cursive; font-size: 1.15rem;
-      color: var(--rose); margin-bottom: 1.25rem;
-    }
-    .hero-desc {
-      font-size: 1rem; line-height: 1.8; color: var(--mid-gray);
-      margin-bottom: 1.75rem; max-width: 440px;
-    }
-    .hero-badges {
-      display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2rem;
-    }
-    .badge {
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; padding: 0.3rem 0.75rem;
-      border-radius: 2px; background: var(--light-gray); color: var(--mid-gray);
-    }
-    .badge.clean { background: #e8f5e9; color: #2e7d32; }
-    .badge.audio { background: var(--sage-light); color: #2d5a30; }
-    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .btn-primary {
-      background: var(--burgundy); color: #fff;
-      padding: 0.85rem 2rem; text-decoration: none;
-      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; border: 2px solid var(--burgundy);
-      transition: all 0.22s; display: inline-block; border-radius: 2px;
-    }
-    .btn-primary:hover { background: var(--deep-burg); border-color: var(--deep-burg); }
-    .btn-secondary {
-      background: transparent; color: var(--burgundy);
-      padding: 0.85rem 2rem; text-decoration: none;
-      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; border: 2px solid var(--blush);
-      transition: all 0.22s; display: inline-block; border-radius: 2px;
-    }
-    .btn-secondary:hover { border-color: var(--burgundy); }
+    /* ABOUT */
+    #about{background:var(--warm-white);display:grid;grid-template-columns:1fr 1fr;gap:0}
+    .about-photo-col{position:relative;overflow:hidden;min-height:520px;background:linear-gradient(160deg,#f5ece8 0%,#e8d4cc 100%);display:flex;align-items:center;justify-content:center}
+    .about-photo-col img{width:280px;height:280px;object-fit:cover;border-radius:50%;border:6px solid #fff;box-shadow:0 12px 40px rgba(139,26,58,.18);position:relative;z-index:2}
+    .about-photo-col::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(201,168,76,.1) 0%,transparent 70%)}
+    .about-photo-ornament{position:absolute;z-index:3;bottom:2.5rem;left:50%;transform:translateX(-50%);background:var(--warm-white);border:1px solid var(--blush);padding:.9rem 1.5rem;text-align:center;white-space:nowrap;border-radius:3px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+    .about-photo-ornament .orn-text{font-family:"Dancing Script",cursive;font-size:1.1rem;color:var(--burgundy)}
+    .about-photo-ornament .orn-sub{font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--mid-gray);margin-top:.15rem}
+    .about-text-col{padding:4.5rem 4rem;display:flex;flex-direction:column;justify-content:center}
+    .about-text-col .section-title{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,2.5vw,2.4rem);color:var(--burgundy);margin-bottom:1rem}
+    .about-text-col .section-title em{font-style:italic}
+    .about-bio{font-size:.98rem;line-height:1.85;color:var(--mid-gray);margin-bottom:1.25rem}
+    .about-facts{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:1.5rem 0 2rem}
+    .fact{display:flex;align-items:center;gap:.65rem;padding:.65rem .85rem;background:var(--cream);border-left:3px solid var(--blush);font-size:.83rem;color:var(--mid-gray);border-radius:0 2px 2px 0}
+    .fact-icon{font-size:1rem;flex-shrink:0}
 
-    /* ── COMING SOON RIBBON ── */
-    .coming-soon-bar {
-      background: linear-gradient(135deg, var(--burgundy), var(--deep-rose));
-      color: #fff; text-align: center; padding: 1rem 2rem;
-    }
-    .coming-soon-bar p {
-      font-size: 0.9rem; letter-spacing: 0.05em;
-    }
-    .coming-soon-bar strong {
-      font-family: "Playfair Display", serif; font-style: italic;
-      font-size: 1.1rem;
-    }
+    /* CONTENT SECTIONS */
+    .content-section{padding:5rem 4rem;text-align:center}
+    .content-section:nth-child(even){background:var(--warm-white)}
+    .content-section:nth-child(odd){background:var(--cream)}
+    .content-section .section-title{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,3vw,2.4rem);color:var(--burgundy);margin-bottom:.5rem}
+    .content-section .section-subtitle{color:var(--mid-gray);font-size:.95rem;max-width:520px;margin:0 auto 2.5rem;line-height:1.7}
+    .content-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:2rem;max-width:1100px;margin:0 auto}
+    .content-card{background:var(--warm-white);border:1px solid var(--light-gray);border-radius:4px;overflow:hidden;text-align:left;transition:transform .25s,box-shadow .25s;cursor:pointer}
+    .content-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.1)}
+    .card-img{width:100%;height:200px;object-fit:cover;background:linear-gradient(135deg,var(--blush) 0%,var(--sage-light) 100%)}
+    .card-body{padding:1.5rem}
+    .card-category{font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--rose);margin-bottom:.5rem}
+    .card-body h3{font-family:"Playfair Display",serif;font-size:1.2rem;color:var(--burgundy);margin-bottom:.5rem;line-height:1.3}
+    .card-body .card-excerpt{font-size:.88rem;line-height:1.7;color:var(--mid-gray);margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .card-meta{display:flex;align-items:center;justify-content:space-between;font-size:.75rem;color:#aaa}
+    .card-price{font-family:"Playfair Display",serif;font-size:1.1rem;color:var(--burgundy);font-weight:600}
+    .card-read-more{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rose)}
+    .empty-state{padding:3rem;color:var(--mid-gray);font-style:italic;font-family:"Playfair Display",serif;font-size:1.1rem}
+    .admin-card-actions{display:none;padding:0 1.5rem 1rem;gap:.5rem}
+    .admin-mode .admin-card-actions{display:flex}
+    .admin-card-actions button{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.4rem .8rem;border:1px solid var(--blush);background:var(--warm-white);color:var(--mid-gray);border-radius:2px;cursor:pointer;transition:all .2s;font-family:"Lato",sans-serif}
+    .admin-card-actions button:hover{border-color:var(--burgundy);color:var(--burgundy)}
+    .admin-card-actions .delete-btn:hover{border-color:#c0392b;color:#c0392b}
+    .admin-add-btn{display:none;margin:2rem auto 0;background:var(--burgundy);color:#fff;border:none;padding:.75rem 2rem;font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;font-family:"Lato",sans-serif;transition:background .2s}
+    .admin-add-btn:hover{background:var(--deep-burg)}
+    .admin-mode .admin-add-btn{display:inline-block}
 
-    /* ── HOW IT WORKS ── */
-    #how {
-      background: var(--cream); padding: 4.5rem 4rem; text-align: center;
-    }
-    .how-header { margin-bottom: 3rem; }
-    .how-header .section-title {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--burgundy); margin-bottom: 0.5rem;
-    }
-    .how-header p { color: var(--mid-gray); font-size: 0.95rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
-    .how-steps {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 2rem; max-width: 960px; margin: 0 auto;
-      position: relative;
-    }
-    .how-steps::before {
-      content: ""; position: absolute;
-      top: 38px; left: 13%; right: 13%; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--blush) 20%, var(--blush) 80%, transparent);
-    }
-    .step { position: relative; z-index: 1; }
-    .step-num {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: var(--warm-white); border: 2px solid var(--blush);
-      margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center;
-      font-family: "Playfair Display", serif; font-size: 1.3rem;
-      color: var(--burgundy); font-weight: 700;
-    }
-    .step h4 {
-      font-family: "Playfair Display", serif; font-size: 1rem;
-      color: var(--burgundy); margin-bottom: 0.4rem;
-    }
-    .step p { font-size: 0.85rem; color: var(--mid-gray); line-height: 1.65; }
+    /* SINGLE VIEW */
+    #single-view{display:none;padding:66px 0 0;min-height:100vh;background:var(--cream)}
+    .single-hero-img{width:100%;max-height:400px;object-fit:cover}
+    .single-content{max-width:720px;margin:0 auto;padding:3rem 2rem 4rem}
+    .single-back{display:inline-flex;align-items:center;gap:.4rem;font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--rose);text-decoration:none;margin-bottom:1.5rem;cursor:pointer}
+    .single-back:hover{color:var(--burgundy)}
+    .single-category{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--rose);margin-bottom:.5rem}
+    .single-content h1{font-family:"Playfair Display",serif;font-size:clamp(2rem,4vw,2.8rem);color:var(--burgundy);line-height:1.2;margin-bottom:.75rem}
+    .single-date{font-size:.82rem;color:#aaa;margin-bottom:2rem}
+    .single-body{font-size:1.05rem;line-height:2;color:var(--mid-gray)}
+    .single-body img{max-width:100%;height:auto;border-radius:4px;margin:1.5rem 0;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+    .single-body p{margin-bottom:1.25rem}
+    .single-body h2{font-family:"Playfair Display",serif;font-size:1.6rem;color:var(--burgundy);margin:2rem 0 1rem}
+    .single-body h3{font-family:"Playfair Display",serif;font-size:1.3rem;color:var(--burgundy);margin:1.5rem 0 .75rem}
+    .single-body blockquote{border-left:3px solid var(--blush);padding-left:1.5rem;font-style:italic;font-family:"Playfair Display",serif;color:var(--rose);margin:1.5rem 0}
+    .share-bar{display:flex;align-items:center;gap:.75rem;margin:2.5rem 0 1rem;padding-top:2rem;border-top:1px solid var(--light-gray);flex-wrap:wrap}
+    .share-bar-label{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--mid-gray)}
+    .share-btn{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem 1rem;border:1px solid var(--light-gray);background:var(--warm-white);border-radius:2px;font-size:.78rem;font-weight:700;color:var(--mid-gray);cursor:pointer;transition:all .2s;text-decoration:none;font-family:"Lato",sans-serif}
+    .share-btn:hover{border-color:var(--burgundy);color:var(--burgundy)}
+    .share-btn.fb:hover{border-color:#1877f2;color:#1877f2}
+    .share-btn.tw:hover{border-color:#1da1f2;color:#1da1f2}
+    .share-btn.pin:hover{border-color:#e60023;color:#e60023}
+    .share-btn.email-share:hover{border-color:var(--sage);color:var(--sage)}
+    .share-btn.copy-link:hover{border-color:var(--gold);color:var(--gold)}
+    .product-buy-box{background:var(--warm-white);border:1.5px solid var(--blush);padding:1.5rem;border-radius:4px;margin:2rem 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .product-buy-box .pbb-price{font-family:"Playfair Display",serif;font-size:1.8rem;color:var(--burgundy);font-weight:700}
+    .product-buy-box .pbb-note{font-size:.82rem;color:var(--mid-gray)}
 
-    /* ── ABOUT ── */
-    #about {
-      background: var(--warm-white);
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
-    .about-photo-col {
-      position: relative; overflow: hidden;
-      min-height: 520px;
-      background: linear-gradient(160deg, #f5ece8 0%, #e8d4cc 100%);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .about-photo-col img {
-      width: 280px; height: 280px; object-fit: cover;
-      border-radius: 50%;
-      border: 6px solid #fff;
-      box-shadow: 0 12px 40px rgba(139,26,58,0.18);
-      position: relative; z-index: 2;
-    }
-    .about-photo-col::before {
-      content: "";
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.1) 0%, transparent 70%);
-    }
-    .about-photo-ornament {
-      position: absolute; z-index: 3;
-      bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-      background: var(--warm-white); border: 1px solid var(--blush);
-      padding: 0.9rem 1.5rem; text-align: center; white-space: nowrap;
-      border-radius: 3px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    }
-    .about-photo-ornament .orn-text {
-      font-family: "Dancing Script", cursive; font-size: 1.1rem; color: var(--burgundy);
-    }
-    .about-photo-ornament .orn-sub {
-      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--mid-gray); margin-top: 0.15rem;
-    }
-    .about-text-col {
-      padding: 4.5rem 4rem; display: flex; flex-direction: column; justify-content: center;
-    }
-    .about-text-col .section-title {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(1.8rem, 2.5vw, 2.4rem); color: var(--burgundy);
-      margin-bottom: 1rem;
-    }
-    .about-text-col .section-title em { font-style: italic; }
-    .about-bio { font-size: 0.98rem; line-height: 1.85; color: var(--mid-gray); margin-bottom: 1.25rem; }
-    .about-facts {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 0.75rem; margin: 1.5rem 0 2rem;
-    }
-    .fact {
-      display: flex; align-items: center; gap: 0.65rem;
-      padding: 0.65rem 0.85rem;
-      background: var(--cream); border-left: 3px solid var(--blush);
-      font-size: 0.83rem; color: var(--mid-gray); border-radius: 0 2px 2px 0;
-    }
-    .fact-icon { font-size: 1rem; flex-shrink: 0; }
+    /* REVIEWS */
+    #reviews{background:linear-gradient(150deg,var(--deep-burg) 0%,var(--burgundy) 50%,#7a2a3a 100%);padding:5rem 4rem;text-align:center}
+    #reviews .eyebrow{color:var(--gold-light);justify-content:center}
+    #reviews .eyebrow::before{display:none}
+    #reviews .section-title{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,3vw,2.4rem);color:#fff;margin-bottom:3rem}
+    .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:960px;margin:0 auto}
+    .review{background:rgba(255,255,255,.09);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.13);padding:1.75rem;border-radius:4px;text-align:left;transition:transform .25s,background .25s}
+    .review:hover{transform:translateY(-4px);background:rgba(255,255,255,.13)}
+    .stars{color:var(--gold);font-size:.9rem;margin-bottom:.75rem}
+    .review-text{font-family:"Playfair Display",serif;font-style:italic;font-size:.93rem;line-height:1.75;color:rgba(255,255,255,.88);margin-bottom:1rem}
+    .reviewer{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light)}
 
-    /* ── REVIEWS ── */
-    #reviews {
-      background: linear-gradient(150deg, var(--deep-burg) 0%, var(--burgundy) 50%, #7a2a3a 100%);
-      padding: 5rem 4rem; text-align: center;
-    }
-    #reviews .eyebrow { color: var(--gold-light); justify-content: center; }
-    #reviews .eyebrow::before { display: none; }
-    #reviews .section-title {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(1.8rem, 3vw, 2.4rem); color: #fff; margin-bottom: 3rem;
-    }
-    .reviews-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem; max-width: 960px; margin: 0 auto;
-    }
-    .review {
-      background: rgba(255,255,255,0.09); backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.13);
-      padding: 1.75rem; border-radius: 4px; text-align: left;
-      transition: transform 0.25s, background 0.25s;
-    }
-    .review:hover { transform: translateY(-4px); background: rgba(255,255,255,0.13); }
-    .stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 0.75rem; }
-    .review-text {
-      font-family: "Playfair Display", serif; font-style: italic;
-      font-size: 0.93rem; line-height: 1.75; color: rgba(255,255,255,0.88);
-      margin-bottom: 1rem;
-    }
-    .reviewer { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-light); }
+    /* NEWSLETTER */
+    #newsletter{background:var(--cream);padding:5rem 4rem;text-align:center}
+    .newsletter-inner{max-width:540px;margin:0 auto}
+    .newsletter-inner .section-title{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,3vw,2.4rem);color:var(--burgundy);margin-bottom:.75rem}
+    .newsletter-inner p{color:var(--mid-gray);font-size:.95rem;line-height:1.75}
+    .nl-form{display:flex;margin:2rem auto 1rem;max-width:460px;border:1.5px solid var(--blush);overflow:hidden;border-radius:2px}
+    .nl-form input{flex:1;padding:.9rem 1.2rem;border:none;font-family:"Lato",sans-serif;font-size:.95rem;background:#fff;outline:none;color:var(--charcoal)}
+    .nl-form input::placeholder{color:#ccc}
+    .nl-form button{background:var(--burgundy);color:#fff;border:none;padding:0 1.5rem;cursor:pointer;font-family:"Lato",sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;transition:background .2s}
+    .nl-form button:hover{background:var(--deep-burg)}
+    .nl-note{font-size:.78rem;color:#bbb;margin-bottom:1.25rem}
+    .nl-gift{display:inline-flex;align-items:center;gap:.75rem;background:var(--warm-white);border:1px solid var(--blush);padding:.75rem 1.25rem;font-size:.85rem;color:var(--deep-rose);border-radius:2px}
 
-    /* ── NEWSLETTER ── */
-    #newsletter {
-      background: var(--cream); padding: 5rem 4rem; text-align: center;
-    }
-    .newsletter-inner { max-width: 540px; margin: 0 auto; }
-    .newsletter-inner .section-title {
-      font-family: "Playfair Display", serif;
-      font-size: clamp(1.8rem, 3vw, 2.4rem); color: var(--burgundy); margin-bottom: 0.75rem;
-    }
-    .newsletter-inner p { color: var(--mid-gray); font-size: 0.95rem; line-height: 1.75; }
-    .nl-form {
-      display: flex; margin: 2rem auto 1rem;
-      max-width: 460px;
-      border: 1.5px solid var(--blush); overflow: hidden; border-radius: 2px;
-    }
-    .nl-form input {
-      flex: 1; padding: 0.9rem 1.2rem; border: none;
-      font-family: "Lato", sans-serif; font-size: 0.95rem;
-      background: #fff; outline: none; color: var(--charcoal);
-    }
-    .nl-form input::placeholder { color: #ccc; }
-    .nl-form button {
-      background: var(--burgundy); color: #fff; border: none;
-      padding: 0 1.5rem; cursor: pointer;
-      font-family: "Lato", sans-serif; font-size: 0.78rem;
-      font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      white-space: nowrap; transition: background 0.2s;
-    }
-    .nl-form button:hover { background: var(--deep-burg); }
-    .nl-note { font-size: 0.78rem; color: #bbb; margin-bottom: 1.25rem; }
-    .nl-gift {
-      display: inline-flex; align-items: center; gap: 0.75rem;
-      background: var(--warm-white); border: 1px solid var(--blush);
-      padding: 0.75rem 1.25rem; font-size: 0.85rem; color: var(--deep-rose);
-      border-radius: 2px;
-    }
+    /* BUY MODAL */
+    .modal-overlay{display:none;position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.65);align-items:center;justify-content:center}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--warm-white);max-width:460px;width:92%;border-radius:4px;overflow:hidden;box-shadow:0 28px 70px rgba(0,0,0,.35)}
+    .modal-head{background:linear-gradient(135deg,var(--deep-burg),var(--burgundy));padding:1.75rem 2rem;position:relative}
+    .modal-head h3{font-family:"Playfair Display",serif;font-size:1.5rem;font-style:italic;color:#fff}
+    .modal-head .modal-sub{font-family:"Dancing Script",cursive;font-size:1rem;color:var(--gold-light);margin-top:.2rem}
+    .modal-close{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.18);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+    .modal-body{padding:1.75rem 2rem}
+    .modal-body>p{font-size:.88rem;color:var(--mid-gray);line-height:1.7;margin-bottom:1.25rem}
+    .format-opts{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem}
+    .format-opt{border:1.5px solid var(--light-gray);border-radius:3px;padding:.9rem 1rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s}
+    .format-opt:hover,.format-opt.sel{border-color:var(--rose);background:rgba(212,114,138,.06)}
+    .format-opt input{margin-right:.75rem;accent-color:var(--rose)}
+    .fmt-label{font-size:.88rem;color:var(--charcoal);flex:1}
+    .fmt-price{font-family:"Playfair Display",serif;font-size:1rem;color:var(--burgundy);font-weight:600}
+    .add-btn{width:100%;background:var(--burgundy);color:#fff;border:none;padding:1rem;font-family:"Lato",sans-serif;font-size:.88rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:background .2s}
+    .add-btn:hover{background:var(--deep-burg)}
+    .modal-note{font-size:.76rem!important;color:#bbb!important;text-align:center;margin-top:.75rem!important}
 
-    /* ── MODAL ── */
-    .modal-overlay {
-      display: none; position: fixed; inset: 0; z-index: 999;
-      background: rgba(0,0,0,0.65); align-items: center; justify-content: center;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal {
-      background: var(--warm-white); max-width: 460px; width: 92%;
-      border-radius: 4px; overflow: hidden;
-      box-shadow: 0 28px 70px rgba(0,0,0,0.35);
-    }
-    .modal-head {
-      background: linear-gradient(135deg, var(--deep-burg), var(--burgundy));
-      padding: 1.75rem 2rem; position: relative;
-    }
-    .modal-head h3 {
-      font-family: "Playfair Display", serif; font-size: 1.5rem;
-      font-style: italic; color: #fff;
-    }
-    .modal-head .modal-sub {
-      font-family: "Dancing Script", cursive; font-size: 1rem;
-      color: var(--gold-light); margin-top: 0.2rem;
-    }
-    .modal-close {
-      position: absolute; top: 1rem; right: 1rem;
-      background: rgba(255,255,255,0.18); border: none; color: #fff;
-      width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
-      font-size: 1rem; display: flex; align-items: center; justify-content: center;
-    }
-    .modal-body { padding: 1.75rem 2rem; }
-    .modal-body > p { font-size: 0.88rem; color: var(--mid-gray); line-height: 1.7; margin-bottom: 1.25rem; }
-    .format-opts { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
-    .format-opt {
-      border: 1.5px solid var(--light-gray); border-radius: 3px;
-      padding: 0.9rem 1rem; display: flex; align-items: center;
-      justify-content: space-between; cursor: pointer; transition: all 0.2s;
-    }
-    .format-opt:hover, .format-opt.sel { border-color: var(--rose); background: rgba(212,114,138,0.06); }
-    .format-opt input { margin-right: 0.75rem; accent-color: var(--rose); }
-    .fmt-label { font-size: 0.88rem; color: var(--charcoal); flex: 1; }
-    .fmt-price { font-family: "Playfair Display", serif; font-size: 1rem; color: var(--burgundy); font-weight: 600; }
-    .add-btn {
-      width: 100%; background: var(--burgundy); color: #fff; border: none;
-      padding: 1rem; font-family: "Lato", sans-serif; font-size: 0.88rem;
-      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-      cursor: pointer; border-radius: 2px; transition: background 0.2s;
-    }
-    .add-btn:hover { background: var(--deep-burg); }
-    .modal-note { font-size: 0.76rem !important; color: #bbb !important; text-align: center; margin-top: 0.75rem !important; }
+    /* CMS EDITOR */
+    .cms-overlay{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.7);align-items:flex-start;justify-content:center;overflow-y:auto;padding:80px 1rem 2rem}
+    .cms-overlay.open{display:flex}
+    .cms-editor{background:var(--warm-white);max-width:680px;width:100%;border-radius:6px;overflow:hidden;box-shadow:0 28px 70px rgba(0,0,0,.4)}
+    .cms-editor-head{background:linear-gradient(135deg,var(--charcoal),#444);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between}
+    .cms-editor-head h3{font-family:"Playfair Display",serif;font-size:1.3rem;color:#fff}
+    .cms-editor-head .cms-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+    .cms-editor-body{padding:2rem}
+    .cms-field{margin-bottom:1.25rem}
+    .cms-field label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mid-gray);margin-bottom:.4rem}
+    .cms-field input,.cms-field select,.cms-field textarea{width:100%;padding:.75rem 1rem;border:1.5px solid var(--light-gray);border-radius:3px;font-family:"Lato",sans-serif;font-size:.95rem;color:var(--charcoal);background:#fff;outline:none;transition:border-color .2s}
+    .cms-field input:focus,.cms-field select:focus,.cms-field textarea:focus{border-color:var(--rose)}
+    .cms-field textarea{min-height:200px;resize:vertical;line-height:1.7}
+    .cms-field small{display:block;font-size:.76rem;color:#aaa;margin-top:.3rem}
+    .cms-toolbar{display:flex;gap:.4rem;margin-bottom:.5rem;flex-wrap:wrap}
+    .cms-toolbar button{padding:.35rem .7rem;border:1px solid var(--light-gray);background:var(--cream);border-radius:2px;cursor:pointer;font-size:.78rem;color:var(--mid-gray);font-family:"Lato",sans-serif;transition:all .2s}
+    .cms-toolbar button:hover{border-color:var(--burgundy);color:var(--burgundy)}
+    .cms-save{width:100%;background:var(--burgundy);color:#fff;border:none;padding:1rem;font-family:"Lato",sans-serif;font-size:.88rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:background .2s;margin-top:.5rem}
+    .cms-save:hover{background:var(--deep-burg)}
 
-    /* ── TOAST ── */
-    .toast {
-      position: fixed; bottom: 2rem; right: 2rem;
-      background: #2d5a30; color: #fff;
-      padding: 1rem 1.5rem; border-radius: 4px;
-      font-size: 0.88rem; z-index: 9999;
-      transform: translateY(120px); opacity: 0; transition: all 0.3s;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    }
-    .toast.show { transform: translateY(0); opacity: 1; }
+    /* ADMIN LOGIN */
+    .admin-login-overlay{display:none;position:fixed;inset:0;z-index:1001;background:rgba(0,0,0,.7);align-items:center;justify-content:center}
+    .admin-login-overlay.open{display:flex}
+    .admin-login-box{background:var(--warm-white);max-width:400px;width:92%;border-radius:6px;overflow:hidden;box-shadow:0 28px 70px rgba(0,0,0,.4)}
+    .admin-login-head{background:var(--charcoal);padding:1.5rem 2rem}
+    .admin-login-head h3{font-family:"Playfair Display",serif;font-size:1.3rem;color:#fff}
+    .admin-login-head p{font-size:.82rem;color:rgba(255,255,255,.5);margin-top:.25rem}
+    .admin-login-body{padding:2rem}
+    .admin-login-body input{width:100%;padding:.85rem 1rem;border:1.5px solid var(--light-gray);border-radius:3px;font-family:"Lato",sans-serif;font-size:1rem;text-align:center;letter-spacing:.1em;outline:none;margin-bottom:1rem}
+    .admin-login-body input:focus{border-color:var(--rose)}
+    .admin-login-btn{width:100%;background:var(--charcoal);color:#fff;border:none;padding:.85rem;font-family:"Lato",sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:background .2s}
+    .admin-login-btn:hover{background:#444}
+    .admin-login-error{color:#c0392b;font-size:.82rem;text-align:center;margin-top:.75rem;display:none}
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--charcoal); color: rgba(255,255,255,0.55);
-      padding: 3.5rem 4rem 2rem;
-    }
-    .footer-grid {
-      display: grid; grid-template-columns: 2fr 1fr 1fr;
-      gap: 3rem; padding-bottom: 2rem;
-      border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 2rem;
-    }
-    .footer-brand .f-logo {
-      font-family: "Dancing Script", cursive; font-size: 1.9rem;
-      color: var(--blush); display: block; margin-bottom: 0.75rem;
-    }
-    .footer-brand p { font-size: 0.83rem; line-height: 1.7; max-width: 260px; }
-    .footer-col h4 {
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em;
-      text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 1rem;
-    }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 0.45rem; }
-    .footer-col a {
-      color: rgba(255,255,255,0.45); text-decoration: none;
-      font-size: 0.83rem; transition: color 0.2s;
-    }
-    .footer-col a:hover { color: var(--blush); }
-    .footer-bottom {
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 0.76rem; flex-wrap: wrap; gap: 0.75rem;
-    }
-    .footer-socials { display: flex; gap: 1.25rem; }
-    .footer-socials a {
-      color: rgba(255,255,255,0.35); text-decoration: none;
-      font-size: 0.83rem; transition: color 0.2s;
-    }
-    .footer-socials a:hover { color: var(--blush); }
+    /* CHANGE PASSWORD */
+    .chpw-overlay{display:none;position:fixed;inset:0;z-index:1002;background:rgba(0,0,0,.7);align-items:center;justify-content:center}
+    .chpw-overlay.open{display:flex}
+    .chpw-box{background:var(--warm-white);max-width:400px;width:92%;border-radius:6px;overflow:hidden;box-shadow:0 28px 70px rgba(0,0,0,.4)}
+    .chpw-head{background:var(--charcoal);padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center}
+    .chpw-head h3{font-family:"Playfair Display",serif;font-size:1.2rem;color:#fff}
+    .chpw-head button{background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+    .chpw-body{padding:2rem}
+    .chpw-body label{display:block;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mid-gray);margin-bottom:.3rem}
+    .chpw-body input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--light-gray);border-radius:3px;font-family:"Lato",sans-serif;font-size:.95rem;outline:none;margin-bottom:1rem}
+    .chpw-body input:focus{border-color:var(--rose)}
+    .chpw-msg{font-size:.82rem;text-align:center;margin-top:.75rem;display:none}
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      nav { padding: 0 1.5rem; }
-      .nav-links { display: none; }
-      .hero-content { grid-template-columns: 1fr; }
-      .hero-book-panel { padding: 2.5rem 2rem; }
-      .hero-text-panel { padding: 2.5rem 2rem; }
-      #about { grid-template-columns: 1fr; }
-      .about-text-col { padding: 3rem 2rem; }
-      .reviews-grid { grid-template-columns: 1fr; max-width: 480px; }
-      #how { padding: 4rem 1.5rem; }
-      .how-steps { grid-template-columns: 1fr 1fr; }
-      .how-steps::before { display: none; }
-      #newsletter { padding: 4rem 1.5rem; }
-      #reviews { padding: 4rem 1.5rem; }
-      footer { padding: 3rem 1.5rem 2rem; }
-      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+    /* CONFIRM CLOSE DIALOG */
+    .confirm-overlay{display:none;position:fixed;inset:0;z-index:1100;background:rgba(0,0,0,.6);align-items:center;justify-content:center}
+    .confirm-overlay.open{display:flex}
+    .confirm-box{background:var(--warm-white);max-width:420px;width:92%;border-radius:6px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+    .confirm-box-head{background:var(--charcoal);padding:1.25rem 1.75rem}
+    .confirm-box-head h4{font-family:"Playfair Display",serif;font-size:1.1rem;color:#fff}
+    .confirm-box-body{padding:1.5rem 1.75rem}
+    .confirm-box-body p{font-size:.9rem;color:var(--mid-gray);line-height:1.65;margin-bottom:1.25rem}
+    .confirm-actions{display:flex;flex-direction:column;gap:.6rem}
+    .confirm-actions button{width:100%;padding:.75rem;border:1.5px solid var(--light-gray);background:#fff;font-family:"Lato",sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .2s;color:var(--charcoal)}
+    .confirm-actions button:hover{border-color:var(--burgundy);color:var(--burgundy)}
+    .confirm-actions .confirm-save{background:var(--burgundy);color:#fff;border-color:var(--burgundy)}
+    .confirm-actions .confirm-save:hover{background:var(--deep-burg);border-color:var(--deep-burg)}
+    .confirm-actions .confirm-discard{color:#c0392b}
+    .confirm-actions .confirm-discard:hover{border-color:#c0392b}
+
+    /* DISCARD SUB-CONFIRM */
+    .discard-overlay{display:none;position:fixed;inset:0;z-index:1150;background:rgba(0,0,0,.6);align-items:center;justify-content:center}
+    .discard-overlay.open{display:flex}
+    .discard-box{background:var(--warm-white);max-width:380px;width:92%;border-radius:6px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+    .discard-box-head{background:#c0392b;padding:1.25rem 1.75rem}
+    .discard-box-head h4{font-family:"Playfair Display",serif;font-size:1.05rem;color:#fff}
+    .discard-box-body{padding:1.5rem 1.75rem}
+    .discard-box-body p{font-size:.9rem;color:var(--mid-gray);line-height:1.65;margin-bottom:1.25rem}
+    .discard-actions{display:flex;gap:.75rem}
+    .discard-actions button{flex:1;padding:.75rem;border:1.5px solid var(--light-gray);background:#fff;font-family:"Lato",sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all .2s;color:var(--charcoal)}
+    .discard-actions .discard-yes{background:#c0392b;color:#fff;border-color:#c0392b}
+    .discard-actions .discard-yes:hover{background:#a93226}
+    .discard-actions .discard-no:hover{border-color:var(--burgundy);color:var(--burgundy)}
+
+    /* ADMIN BAR */
+    .admin-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--charcoal);color:#fff;z-index:200;padding:.6rem 2rem;justify-content:space-between;align-items:center;font-size:.82rem;box-shadow:0 -4px 20px rgba(0,0,0,.2)}
+    .admin-mode .admin-bar{display:flex}
+    .admin-bar span{opacity:.7}
+    .admin-bar-btns{display:flex;gap:.5rem}
+    .admin-bar button{background:rgba(255,255,255,.15);border:none;color:#fff;padding:.4rem 1rem;border-radius:2px;cursor:pointer;font-family:"Lato",sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    .admin-bar button:hover{background:rgba(255,255,255,.25)}
+
+    /* TOAST */
+    .toast{position:fixed;bottom:2rem;right:2rem;background:#2d5a30;color:#fff;padding:1rem 1.5rem;border-radius:4px;font-size:.88rem;z-index:9999;transform:translateY(120px);opacity:0;transition:all .3s;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+    .toast.show{transform:translateY(0);opacity:1}
+    .admin-mode .toast{bottom:4rem}
+
+    /* FOOTER */
+    footer{background:var(--charcoal);color:rgba(255,255,255,.55);padding:3.5rem 4rem 2rem}
+    .admin-mode footer{padding-bottom:4rem}
+    .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:2rem}
+    .footer-brand .f-logo{font-family:"Dancing Script",cursive;font-size:1.9rem;color:var(--blush);display:block;margin-bottom:.75rem}
+    .footer-brand p{font-size:.83rem;line-height:1.7;max-width:260px}
+    .footer-col h4{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:1rem}
+    .footer-col ul{list-style:none}
+    .footer-col li{margin-bottom:.45rem}
+    .footer-col a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.83rem;transition:color .2s}
+    .footer-col a:hover{color:var(--blush)}
+    .footer-bottom{display:flex;align-items:center;justify-content:space-between;font-size:.76rem;flex-wrap:wrap;gap:.75rem}
+    .footer-socials{display:flex;gap:1.25rem}
+    .footer-socials a{color:rgba(255,255,255,.35);text-decoration:none;font-size:.83rem;transition:color .2s}
+    .footer-socials a:hover{color:var(--blush)}
+    .admin-link{color:rgba(255,255,255,.08);text-decoration:none;font-size:.55rem;cursor:pointer;transition:color .3s;user-select:none;letter-spacing:.05em;position:absolute;right:4rem;bottom:1.5rem}
+    .admin-link:hover{color:rgba(255,255,255,.22)}
+    .footer-bottom-wrap{position:relative}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      nav{padding:0 1.5rem}
+      .nav-links{display:none}
+      .mobile-menu-btn{display:block}
+      .hero-content{grid-template-columns:1fr}
+      .hero-book-panel{padding:2.5rem 2rem}
+      .hero-text-panel{padding:2.5rem 2rem}
+      #about{grid-template-columns:1fr}
+      .about-text-col{padding:3rem 2rem}
+      .reviews-grid{grid-template-columns:1fr;max-width:480px}
+      #how{padding:4rem 1.5rem}
+      .how-steps{grid-template-columns:1fr 1fr}
+      .how-steps::before{display:none}
+      .content-section{padding:4rem 1.5rem}
+      #newsletter{padding:4rem 1.5rem}
+      #reviews{padding:4rem 1.5rem}
+      footer{padding:3rem 1.5rem 2rem}
+      .footer-grid{grid-template-columns:1fr;gap:2rem}
+      .admin-link{right:1.5rem;bottom:1.2rem}
     }
-    @media (max-width: 580px) {
-      .how-steps { grid-template-columns: 1fr; }
+    @media(max-width:580px){
+      .how-steps{grid-template-columns:1fr}
+      .content-grid{grid-template-columns:1fr}
+      .about-facts{grid-template-columns:1fr}
     }
   </style>
 </head>
 <body>
+<div id="main-site">
 
-<!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Caroline Siler</a>
+  <a href="#" class="nav-logo" onclick="goHome();return false;">Caroline Siler</a>
   <ul class="nav-links">
-    <li><a href="#book">The Book</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#reviews">Reviews</a></li>
-    <li><a href="#newsletter">Newsletter</a></li>
-    <li><a href="#book" class="nav-cta">Buy Direct</a></li>
+    <li><a href="#book" onclick="goHome()">The Book</a></li>
+    <li><a href="#articles-section" onclick="goHome()">Articles</a></li>
+    <li><a href="#journal-section" onclick="goHome()">Journal</a></li>
+    <li><a href="#products-section" onclick="goHome()">Shop</a></li>
+    <li><a href="#about" onclick="goHome()">About</a></li>
+    <li><a href="#newsletter" onclick="goHome()">Newsletter</a></li>
+    <li><a href="#book" class="nav-cta" onclick="goHome()">Buy Direct</a></li>
   </ul>
-  <div class="cart-btn" onclick="openCart()">
-    🛒
-    <div class="cart-badge" id="cartBadge">0</div>
-  </div>
+  <button class="mobile-menu-btn" onclick="openMobileMenu()">&#9776;</button>
 </nav>
 
-<!-- HERO BANNER (temporarily removed) -->
-<div id="hero" style="display:none">
-<div class="hero-placeholder">Banner goes here</div>
-    <div class="hero-banner-overlay">
-    <div class="hero-tagline">
-      <div class="hero-tagline-badge">✦ Clean &amp; Wholesome Romance ✦</div>
-      <h1>Where Every Story Leads<br>Somebody Home</h1>
-    </div>
-  </div>
+<div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileMenu()"></div>
+<div class="mobile-drawer" id="mobileDrawer">
+  <button class="mobile-drawer-close" onclick="closeMobileMenu()">&times;</button>
+  <ul>
+    <li><a href="#book" onclick="goHome();closeMobileMenu()">The Book</a></li>
+    <li><a href="#articles-section" onclick="goHome();closeMobileMenu()">Articles</a></li>
+    <li><a href="#journal-section" onclick="goHome();closeMobileMenu()">Journal</a></li>
+    <li><a href="#products-section" onclick="goHome();closeMobileMenu()">Shop</a></li>
+    <li><a href="#about" onclick="goHome();closeMobileMenu()">About</a></li>
+    <li><a href="#reviews" onclick="goHome();closeMobileMenu()">Reviews</a></li>
+    <li><a href="#newsletter" onclick="goHome();closeMobileMenu()">Newsletter</a></li>
+  </ul>
 </div>
 
-<!-- BOOK SECTION -->
 <div id="book" class="hero-content" style="margin-top:66px">
   <div class="hero-book-panel">
     <div class="book-3d">
-      <img src="" alt="Restoration — From Loss to Love Book One by Caroline Siler" />
+      <img src="https://i.postimg.cc/PqqtwD4b/Restoration-Book.jpg" alt="Restoration — From Loss to Love Book One by Caroline Siler" />
     </div>
   </div>
   <div class="hero-text-panel">
     <div class="eyebrow">Now Available</div>
     <h2><em>Restoration</em></h2>
-    <div class="series-tag">From Loss to Love · Book One</div>
-    <p class="hero-desc">
-      A heartwarming Christmas romance about two people healing from grief, finding hope in a small town, and discovering that love — when you least expect it — can restore everything you thought was gone.
-    </p>
+    <div class="series-tag">From Loss to Love &middot; Book One</div>
+    <p class="hero-desc">A heartwarming Christmas romance about two people healing from grief, finding hope in a small town, and discovering that love &mdash; when you least expect it &mdash; can restore everything you thought was gone.</p>
     <div class="hero-badges">
-      <span class="badge clean">✓ Clean &amp; Wholesome</span>
-      <span class="badge">📖 Ebook</span>
-      <span class="badge audio">🎧 Audiobook</span>
-      <span class="badge">💌 Instant Delivery</span>
+      <span class="badge clean">&check; Clean &amp; Wholesome</span>
+      <span class="badge">&#128214; Ebook</span>
+      <span class="badge audio">&#127911; Audiobook</span>
+      <span class="badge">&#128140; Instant Delivery</span>
     </div>
     <div class="hero-btns">
-      <button class="btn-primary" onclick="openModal()">Buy Direct — $4.99</button>
+      <button class="btn-primary" onclick="openModal()">Buy Direct &mdash; $4.99</button>
       <a href="#about" class="btn-secondary">Meet Caroline</a>
     </div>
   </div>
 </div>
 
-<!-- COMING SOON BAR -->
 <div class="coming-soon-bar">
-  <p>📖 &nbsp; Book Two of the <strong>From Loss to Love</strong> series is coming soon — <a href="#newsletter" style="color:var(--gold-light); text-decoration:underline">join the newsletter</a> to be first to know!</p>
+  <p>&#128214; &nbsp; Book Two of the <strong>From Loss to Love</strong> series is coming soon &mdash; <a href="#newsletter" style="color:var(--gold-light);text-decoration:underline">join the newsletter</a> to be first to know!</p>
 </div>
 
-<!-- HOW IT WORKS -->
 <section id="how">
   <div class="how-header">
-    <div class="eyebrow" style="justify-content:center; margin-bottom:0.6rem"><span style="width:0"></span>How Buying Direct Works</div>
-    <div class="section-title">Simple. Instant. <em style="font-family:Playfair Display,serif; font-style:italic">Yours Forever.</em></div>
-    <p>When you buy directly from Caroline, you get DRM-free files — no subscriptions, no lock-in, and every sale goes directly to supporting her writing.</p>
+    <div class="eyebrow" style="justify-content:center;margin-bottom:.6rem"><span style="width:0"></span>How Buying Direct Works</div>
+    <div class="section-title">Simple. Instant. <em style="font-family:Playfair Display,serif;font-style:italic">Yours Forever.</em></div>
+    <p>When you buy directly from Caroline, you get DRM-free files &mdash; no subscriptions, no lock-in, and every sale goes directly to supporting her writing.</p>
   </div>
   <div class="how-steps">
-    <div class="step">
-      <div class="step-num">1</div>
-      <h4>Choose Your Format</h4>
-      <p>Ebook (EPUB &amp; MOBI), Audiobook (MP3), or both — pick what works for you.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">2</div>
-      <h4>Secure Checkout</h4>
-      <p>Pay safely with any card or PayPal. Your information is never stored or shared.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">3</div>
-      <h4>Instant Delivery</h4>
-      <p>Download links arrive in your inbox within 60 seconds — no waiting, no account required.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">4</div>
-      <h4>Read Anywhere</h4>
-      <p>Open on Kindle, phone, tablet, or your favorite app. The file is yours to keep forever.</p>
-    </div>
+    <div class="step"><div class="step-num">1</div><h4>Choose Your Format</h4><p>Ebook (EPUB &amp; MOBI), Audiobook (MP3), or both.</p></div>
+    <div class="step"><div class="step-num">2</div><h4>Secure Checkout</h4><p>Pay safely with any card or PayPal.</p></div>
+    <div class="step"><div class="step-num">3</div><h4>Instant Delivery</h4><p>Download links arrive in your inbox within 60 seconds.</p></div>
+    <div class="step"><div class="step-num">4</div><h4>Read Anywhere</h4><p>Open on Kindle, phone, tablet, or your favorite app. Yours forever.</p></div>
   </div>
 </section>
 
-<!-- ABOUT -->
+<section id="articles-section" class="content-section">
+  <div class="eyebrow" style="justify-content:center;margin-bottom:.6rem"><span style="width:0"></span>From Caroline's Desk</div>
+  <div class="section-title">Articles</div>
+  <p class="section-subtitle">Thoughts on writing, small town living, and the stories that shape us.</p>
+  <div class="content-grid" id="articles-grid"></div>
+  <button class="admin-add-btn" onclick="openCmsEditor('article')">+ New Article</button>
+</section>
+
+<section id="journal-section" class="content-section">
+  <div class="eyebrow" style="justify-content:center;margin-bottom:.6rem"><span style="width:0"></span>Author's Journal</div>
+  <div class="section-title">Caroline's Journal</div>
+  <p class="section-subtitle">Behind the scenes peeks, personal reflections, and notes from the writing life.</p>
+  <div class="content-grid" id="journal-grid"></div>
+  <button class="admin-add-btn" onclick="openCmsEditor('journal')">+ New Journal Entry</button>
+</section>
+
+<section id="products-section" class="content-section">
+  <div class="eyebrow" style="justify-content:center;margin-bottom:.6rem"><span style="width:0"></span>Caroline's Shop</div>
+  <div class="section-title">Books &amp; More</div>
+  <p class="section-subtitle">Books, audiobooks, and exclusive extras &mdash; all direct from the author.</p>
+  <div class="content-grid" id="products-grid"></div>
+  <button class="admin-add-btn" onclick="openCmsEditor('product')">+ New Product</button>
+</section>
+
 <section id="about" style="padding:0">
   <div class="about-photo-col">
-    <img src="" alt="Caroline Siler, author" />
+    <img src="https://i.postimg.cc/PJqDX6pB/download.jpg" alt="Caroline Siler, author" />
     <div class="about-photo-ornament">
       <div class="orn-text">Caroline Siler</div>
-      <div class="orn-sub">Arkansas River Valley · Author</div>
+      <div class="orn-sub">Arkansas River Valley &middot; Author</div>
     </div>
   </div>
   <div class="about-text-col">
     <div class="eyebrow">The Author</div>
     <div class="section-title">A <em>Storyteller</em><br>at Heart</div>
-    <p class="about-bio">
-      Caroline Siler lives in a small town in Arkansas in a house in the woods near the Arkansas River valley with her husband. She teaches US History, because she loves the stories of people and events.
-    </p>
-    <p class="about-bio">
-      She loves to read a good book on rainy days, enjoys baking, hiking, traveling, and gathering around a table to hear and tell family stories. Caroline writes wholesome small town romances with sweet, southern heat.
-    </p>
+    <p class="about-bio">Caroline Siler lives in a small town in Arkansas in a house in the woods near the Arkansas River valley with her husband. She teaches US History, because she loves the stories of people and events.</p>
+    <p class="about-bio">She loves to read a good book on rainy days, enjoys baking, hiking, traveling, and gathering around a table to hear and tell family stories. Caroline writes wholesome small town romances with sweet, southern heat.</p>
     <div class="about-facts">
-      <div class="fact"><div class="fact-icon">🌲</div>Arkansas River Valley woods</div>
-      <div class="fact"><div class="fact-icon">📚</div>US History teacher</div>
-      <div class="fact"><div class="fact-icon">🥧</div>Baker &amp; rainy-day reader</div>
-      <div class="fact"><div class="fact-icon">🗺️</div>Hiker, traveler, storyteller</div>
+      <div class="fact"><div class="fact-icon">&#127794;</div>Arkansas River Valley woods</div>
+      <div class="fact"><div class="fact-icon">&#128218;</div>US History teacher</div>
+      <div class="fact"><div class="fact-icon">&#129383;</div>Baker &amp; rainy-day reader</div>
+      <div class="fact"><div class="fact-icon">&#128506;</div>Hiker, traveler, storyteller</div>
     </div>
     <button class="btn-primary" onclick="openModal()">Read <em>Restoration</em> Today</button>
   </div>
 </section>
 
-<!-- REVIEWS -->
 <section id="reviews">
   <div class="eyebrow">Reader Love</div>
   <div class="section-title">What Readers Are Saying</div>
   <div class="reviews-grid">
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"Restoration is the cozy Christmas romance I didn't know I needed. Warm, hopeful, and beautifully written. I finished it in one sitting."</p>
-      <div class="reviewer">— Sarah M., Verified Reader</div>
-    </div>
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"Finally a book I can recommend to absolutely everyone — my mom, my daughter, my book club. Clean, sweet, and absolutely moving."</p>
-      <div class="reviewer">— Linda K., Verified Reader</div>
-    </div>
-    <div class="review">
-      <div class="stars">★★★★★</div>
-      <p class="review-text">"Caroline has such a gift for writing characters you genuinely root for. I cried twice and smiled the whole way through. Cannot wait for Book Two!"</p>
-      <div class="reviewer">— Tammy R., Verified Reader</div>
-    </div>
+    <div class="review"><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="review-text">"Restoration is the cozy Christmas romance I didn't know I needed. Warm, hopeful, and beautifully written. I finished it in one sitting."</p><div class="reviewer">&mdash; Sarah M., Verified Reader</div></div>
+    <div class="review"><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="review-text">"Finally a book I can recommend to absolutely everyone &mdash; my mom, my daughter, my book club. Clean, sweet, and absolutely moving."</p><div class="reviewer">&mdash; Linda K., Verified Reader</div></div>
+    <div class="review"><div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="review-text">"Caroline has such a gift for writing characters you genuinely root for. I cried twice and smiled the whole way through. Cannot wait for Book Two!"</p><div class="reviewer">&mdash; Tammy R., Verified Reader</div></div>
   </div>
 </section>
 
-<!-- NEWSLETTER -->
 <section id="newsletter">
   <div class="newsletter-inner">
     <div class="eyebrow" style="justify-content:center"><span style="width:0"></span>Stay Connected</div>
-    <div class="section-title">Join <em style="font-family:Playfair Display,serif; font-style:italic; color:var(--deep-rose)">Caroline's Circle</em></div>
-    <p>Be the first to hear about Book Two and future releases, get exclusive reader extras, and receive notes from Caroline's corner of the Arkansas woods. No spam — just stories.</p>
+    <div class="section-title">Join <em style="font-family:Playfair Display,serif;font-style:italic;color:var(--deep-rose)">Caroline's Circle</em></div>
+    <p>Be the first to hear about Book Two and future releases, get exclusive reader extras, and receive notes from Caroline's corner of the Arkansas woods. No spam &mdash; just stories.</p>
     <form class="nl-form" onsubmit="handleNL(event)">
       <input type="email" id="nlEmail" placeholder="Your email address" required />
       <button type="submit">Subscribe</button>
     </form>
     <p class="nl-note">No spam, ever. Unsubscribe anytime.</p>
-    <div class="nl-gift">🎁 &nbsp; <strong>Free gift:</strong> &nbsp; Receive a free bonus short story when you subscribe!</div>
+    <div class="nl-gift">&#127873; &nbsp; <strong>Free gift:</strong> &nbsp; Receive a free bonus short story when you subscribe!</div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
       <span class="f-logo">Caroline Siler</span>
-      <p>Wholesome small-town romances with sweet, southern heat. Written in the heart of Arkansas — for readers who believe in the grace of an everyday love story.</p>
+      <p>Wholesome small-town romances with sweet, southern heat. Written in the heart of Arkansas &mdash; for readers who believe in the grace of an everyday love story.</p>
     </div>
-    <div class="footer-col">
-      <h4>Books</h4>
-      <ul>
-        <li><a href="#book">Restoration (Book 1)</a></li>
-        <li><a href="#newsletter">Book Two — Coming Soon</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Readers</h4>
-      <ul>
-        <li><a href="#how">How It Works</a></li>
-        <li><a href="#newsletter">Newsletter</a></li>
-        <li><a href="#about">About Caroline</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="#">Privacy Policy</a></li>
-      </ul>
-    </div>
+    <div class="footer-col"><h4>Books</h4><ul><li><a href="#book">Restoration (Book 1)</a></li><li><a href="#newsletter">Book Two &mdash; Coming Soon</a></li></ul></div>
+    <div class="footer-col"><h4>Readers</h4><ul><li><a href="#how">How It Works</a></li><li><a href="#articles-section">Articles</a></li><li><a href="#journal-section">Journal</a></li><li><a href="#products-section">Shop</a></li><li><a href="#newsletter">Newsletter</a></li><li><a href="#about">About Caroline</a></li></ul></div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2025 Caroline Siler. All rights reserved.</span>
+  <div class="footer-bottom footer-bottom-wrap">
+    <span>&copy; 2025 Caroline Siler. All rights reserved.</span>
     <div class="footer-socials">
       <a href="#">Facebook</a>
       <a href="#">Instagram</a>
       <a href="#">BookBub</a>
       <a href="#">Goodreads</a>
     </div>
+    <a class="admin-link" onclick="openAdminLogin()">&middot;</a>
   </div>
 </footer>
+</div>
 
-<!-- MODAL -->
-<div class="modal-overlay" id="modal">
-  <div class="modal">
-    <div class="modal-head">
-      <h3>Restoration</h3>
-      <div class="modal-sub">From Loss to Love · Book One</div>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
-    <div class="modal-body">
-      <p>Choose your preferred format. Files are delivered instantly to your email — DRM-free and yours to keep forever.</p>
-      <div class="format-opts" id="fmtOpts">
-        <label class="format-opt sel">
-          <input type="radio" name="fmt" value="ebook" checked />
-          <span class="fmt-label">📖 Ebook (EPUB &amp; MOBI)</span>
-          <span class="fmt-price">$4.99</span>
-        </label>
-        <label class="format-opt">
-          <input type="radio" name="fmt" value="audio" />
-          <span class="fmt-label">🎧 Audiobook (MP3)</span>
-          <span class="fmt-price">$7.99</span>
-        </label>
-        <label class="format-opt">
-          <input type="radio" name="fmt" value="both" />
-          <span class="fmt-label">📖 + 🎧 Ebook &amp; Audiobook</span>
-          <span class="fmt-price">$10.99</span>
-        </label>
-      </div>
-      <button class="add-btn" onclick="addToCart()">Proceed to Checkout →</button>
-      <p class="modal-note">🔒 Secure checkout · Files delivered to your inbox in seconds</p>
+<!-- SINGLE VIEW -->
+<div id="single-view">
+  <div id="single-hero-container"></div>
+  <div class="single-content">
+    <a class="single-back" onclick="goHome()">&larr; Back</a>
+    <div class="single-category" id="single-cat"></div>
+    <h1 id="single-title"></h1>
+    <div class="single-date" id="single-date"></div>
+    <div id="single-product-buy"></div>
+    <div class="single-body" id="single-body"></div>
+    <div class="share-bar">
+      <span class="share-bar-label">Share</span>
+      <a class="share-btn fb" id="share-fb" href="#" target="_blank" onclick="return shareFB()">Facebook</a>
+      <a class="share-btn tw" id="share-tw" href="#" target="_blank" onclick="return shareTW()">Twitter</a>
+      <a class="share-btn pin" id="share-pin" href="#" target="_blank" onclick="return sharePin()">Pinterest</a>
+      <a class="share-btn email-share" id="share-email" href="#">Email</a>
+      <button class="share-btn copy-link" onclick="copyLink()">Copy Link</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
-<div class="toast" id="toast">✓ Added! Redirecting to checkout…</div>
+<!-- BUY MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-head"><h3>Restoration</h3><div class="modal-sub">From Loss to Love &middot; Book One</div><button class="modal-close" onclick="closeModal()">&times;</button></div>
+    <div class="modal-body">
+      <p>Choose your preferred format. Files are delivered instantly to your email &mdash; DRM-free and yours to keep forever.</p>
+      <div class="format-opts" id="fmtOpts">
+        <label class="format-opt sel"><input type="radio" name="fmt" value="ebook" checked /><span class="fmt-label">&#128214; Ebook (EPUB &amp; MOBI)</span><span class="fmt-price">$4.99</span></label>
+        <label class="format-opt"><input type="radio" name="fmt" value="audio" /><span class="fmt-label">&#127911; Audiobook (MP3)</span><span class="fmt-price">$7.99</span></label>
+        <label class="format-opt"><input type="radio" name="fmt" value="both" /><span class="fmt-label">&#128214; + &#127911; Both</span><span class="fmt-price">$10.99</span></label>
+      </div>
+      <button class="add-btn" onclick="addToCart()">Proceed to Checkout &rarr;</button>
+      <p class="modal-note">&#128274; Secure checkout &middot; Files delivered to your inbox in seconds</p>
+    </div>
+  </div>
+</div>
 
+<!-- CMS EDITOR -->
+<div class="cms-overlay" id="cmsOverlay">
+  <div class="cms-editor">
+    <div class="cms-editor-head"><h3 id="cmsEditorTitle">New Article</h3><button class="cms-close" onclick="requestCloseCms()">&times;</button></div>
+    <div class="cms-editor-body">
+      <input type="hidden" id="cms-id" /><input type="hidden" id="cms-type" />
+      <div class="cms-field"><label>Title</label><input type="text" id="cms-title" placeholder="Enter title..." /></div>
+      <div class="cms-field" id="cms-price-field" style="display:none"><label>Price (e.g. $14.99)</label><input type="text" id="cms-price" placeholder="$0.00" /></div>
+      <div class="cms-field" id="cms-buylink-field" style="display:none"><label>Buy / Checkout Link (URL)</label><input type="text" id="cms-buylink" placeholder="https://..." /></div>
+      <div class="cms-field"><label>Featured Image URL</label><input type="text" id="cms-image" placeholder="Paste image URL from postimages.org..." /><small>Upload your image at <a href="https://postimages.org" target="_blank" style="color:var(--rose)">postimages.org</a>, then paste the "Direct link" here.</small></div>
+      <div class="cms-field"><label>Excerpt / Short Description</label><textarea id="cms-excerpt" rows="2" placeholder="A brief teaser shown on the card..." style="min-height:70px"></textarea></div>
+      <div class="cms-field">
+        <label>Full Content</label>
+        <div class="cms-toolbar">
+          <button type="button" onclick="insertTag('h2')">H2</button><button type="button" onclick="insertTag('h3')">H3</button><button type="button" onclick="insertTag('b')">Bold</button><button type="button" onclick="insertTag('i')">Italic</button><button type="button" onclick="insertTag('blockquote')">Quote</button><button type="button" onclick="insertTag('img')">Image</button><button type="button" onclick="insertTag('p')">Paragraph</button><button type="button" onclick="insertTag('a')">Link</button>
+        </div>
+        <textarea id="cms-body" placeholder="Write your content using simple HTML tags..."></textarea>
+        <small>Use basic HTML: &lt;p&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;img&gt;, &lt;blockquote&gt;, &lt;b&gt;, &lt;i&gt;, &lt;a href=&quot;...&quot;&gt;</small>
+      </div>
+      <button class="cms-save" onclick="saveCmsItem()">Publish</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM CLOSE -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-box-head"><h4>You have unsaved work</h4></div>
+    <div class="confirm-box-body">
+      <p>What would you like to do with your current changes?</p>
+      <div class="confirm-actions">
+        <button class="confirm-save" onclick="confirmSaveAndClose()">Save &amp; Close</button>
+        <button onclick="confirmKeepOpen()">Keep Editing</button>
+        <button class="confirm-discard" onclick="confirmDiscardStart()">Discard Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DISCARD CONFIRM -->
+<div class="discard-overlay" id="discardOverlay">
+  <div class="discard-box">
+    <div class="discard-box-head"><h4>Are you sure?</h4></div>
+    <div class="discard-box-body">
+      <p>All unsaved work will be permanently lost. This cannot be undone.</p>
+      <div class="discard-actions">
+        <button class="discard-yes" onclick="confirmDiscardYes()">Yes, Discard</button>
+        <button class="discard-no" onclick="confirmDiscardNo()">No, Go Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN LOGIN -->
+<div class="admin-login-overlay" id="adminLoginOverlay">
+  <div class="admin-login-box">
+    <div class="admin-login-head"><h3>Admin Access</h3><p>Enter your admin password to manage content.</p></div>
+    <div class="admin-login-body">
+      <input type="password" id="adminCode" placeholder="Password" onkeydown="if(event.key==='Enter')tryAdminLogin()" />
+      <button class="admin-login-btn" onclick="tryAdminLogin()">Log In</button>
+      <p class="admin-login-error" id="adminError">Incorrect password. Please try again.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CHANGE PASSWORD -->
+<div class="chpw-overlay" id="chpwOverlay">
+  <div class="chpw-box">
+    <div class="chpw-head"><h3>Change Password</h3><button onclick="closeChpw()">&times;</button></div>
+    <div class="chpw-body">
+      <label>Current Password</label><input type="password" id="chpw-current" placeholder="Enter current password" />
+      <label>New Password</label><input type="password" id="chpw-new" placeholder="Enter new password" />
+      <label>Confirm New Password</label><input type="password" id="chpw-confirm" placeholder="Confirm new password" />
+      <button class="admin-login-btn" onclick="changePassword()">Update Password</button>
+      <p class="chpw-msg" id="chpwMsg"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN BAR -->
+<div class="admin-bar">
+  <span>&#9998; Admin Mode Active</span>
+  <div class="admin-bar-btns">
+    <button onclick="openChpw()">Change Password</button>
+    <button onclick="logoutAdmin()">Log Out</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-  function openModal() {
-    document.getElementById("modal").classList.add("open");
-    document.querySelectorAll(".format-opt").forEach(o => {
-      o.addEventListener("click", () => {
-        document.querySelectorAll(".format-opt").forEach(x => x.classList.remove("sel"));
-        o.classList.add("sel");
-      });
-    });
+/* ═══ FIREBASE CONFIG ═══ */
+firebase.initializeApp({
+  apiKey:"AIzaSyCLkmmBlUKAWcUChFADozbqWD7veHl12xc",
+  authDomain:"caroline-siler-author.firebaseapp.com",
+  projectId:"caroline-siler-author",
+  storageBucket:"caroline-siler-author.firebasestorage.app",
+  messagingSenderId:"468675734009",
+  appId:"1:468675734009:web:6dad97bb25789150453528"
+});
+const db=firebase.firestore();
+
+/* ═══ DEFAULT PASSWORD ═══
+   Only used if Firestore has no admin_settings/auth doc yet.
+   Once changed via the UI, this is permanently ignored. */
+const DEFAULT_PASSWORD="caroline2025";
+
+/* ═══ AUTH ═══ */
+let _adminPassword=null,_pwFromFirestore=false,isAdmin=false;
+
+async function loadAdminPassword(){
+  try{
+    const doc=await db.collection('admin_settings').doc('auth').get();
+    if(doc.exists&&doc.data().password){_adminPassword=doc.data().password;_pwFromFirestore=true}
+    else{_adminPassword=DEFAULT_PASSWORD;_pwFromFirestore=false}
+  }catch(e){console.error('Auth load error:',e);_adminPassword=DEFAULT_PASSWORD;_pwFromFirestore=false}
+}
+
+async function saveAdminPassword(pw){
+  await db.collection('admin_settings').doc('auth').set({password:pw},{merge:true});
+  _adminPassword=pw;_pwFromFirestore=true;
+}
+
+function openAdminLogin(){
+  if(isAdmin){logoutAdmin();return}
+  document.getElementById('adminLoginOverlay').classList.add('open');
+  document.getElementById('adminCode').value='';
+  document.getElementById('adminError').style.display='none';
+  setTimeout(()=>document.getElementById('adminCode').focus(),100);
+}
+
+function tryAdminLogin(){
+  const code=document.getElementById('adminCode').value;
+  // If password was changed in Firebase, reject the hardcoded default
+  if(_pwFromFirestore&&code===DEFAULT_PASSWORD&&code!==_adminPassword){
+    document.getElementById('adminError').style.display='block';return;
   }
-  function closeModal() { document.getElementById("modal").classList.remove("open"); }
-  document.getElementById("modal").addEventListener("click", function(e) {
-    if (e.target === this) closeModal();
+  if(code===_adminPassword){
+    isAdmin=true;
+    document.getElementById('adminLoginOverlay').classList.remove('open');
+    document.body.classList.add('admin-mode');
+    showToast('Welcome back, Caroline! Admin mode is active.');
+  }else{
+    document.getElementById('adminError').style.display='block';
+  }
+}
+
+function logoutAdmin(){
+  isAdmin=false;document.body.classList.remove('admin-mode');
+  showToast('Logged out of admin mode.');
+}
+
+/* ═══ CHANGE PASSWORD ═══ */
+function openChpw(){
+  document.getElementById('chpwOverlay').classList.add('open');
+  document.getElementById('chpw-current').value='';
+  document.getElementById('chpw-new').value='';
+  document.getElementById('chpw-confirm').value='';
+  document.getElementById('chpwMsg').style.display='none';
+}
+function closeChpw(){document.getElementById('chpwOverlay').classList.remove('open')}
+document.getElementById('chpwOverlay').addEventListener('click',function(e){if(e.target===this)closeChpw()});
+
+async function changePassword(){
+  const cur=document.getElementById('chpw-current').value;
+  const nw=document.getElementById('chpw-new').value;
+  const cf=document.getElementById('chpw-confirm').value;
+  const msg=document.getElementById('chpwMsg');
+  if(cur!==_adminPassword){msg.style.display='block';msg.style.color='#c0392b';msg.textContent='Current password is incorrect.';return}
+  if(nw.length<6){msg.style.display='block';msg.style.color='#c0392b';msg.textContent='New password must be at least 6 characters.';return}
+  if(nw!==cf){msg.style.display='block';msg.style.color='#c0392b';msg.textContent='New passwords do not match.';return}
+  try{
+    await saveAdminPassword(nw);
+    msg.style.display='block';msg.style.color='#2d5a30';msg.textContent='Password updated successfully!';
+    setTimeout(()=>closeChpw(),1500);showToast('Password changed.');
+  }catch(e){msg.style.display='block';msg.style.color='#c0392b';msg.textContent='Error saving. Please try again.'}
+}
+
+/* ═══ DATA STORE ═══ */
+let _cache={articles:[],journal:[],products:[]};
+
+async function loadAllData(){
+  try{
+    const[a,j,p]=await Promise.all([
+      db.collection('articles').orderBy('created','desc').get(),
+      db.collection('journal').orderBy('created','desc').get(),
+      db.collection('products').orderBy('created','desc').get()
+    ]);
+    _cache.articles=a.docs.map(d=>({id:d.id,...d.data()}));
+    _cache.journal=j.docs.map(d=>({id:d.id,...d.data()}));
+    _cache.products=p.docs.map(d=>({id:d.id,...d.data()}));
+  }catch(e){console.error('Data load error:',e)}
+}
+function getData(){return _cache}
+
+async function saveItemToFirebase(col,item){
+  try{const c={...item};delete c._isNew;await db.collection(col).doc(item.id).set(c)}
+  catch(e){console.error('Save error:',e);showToast('Error saving.')}
+}
+async function deleteItemFromFirebase(col,id){
+  try{await db.collection(col).doc(id).delete()}
+  catch(e){console.error('Delete error:',e);showToast('Error deleting.')}
+}
+
+/* ═══ RENDER ═══ */
+function renderAll(){
+  const d=getData();
+  renderGrid('articles-grid',d.articles,'article');
+  renderGrid('journal-grid',d.journal,'journal');
+  renderGrid('products-grid',d.products,'product');
+}
+
+function renderGrid(gridId,items,type){
+  const grid=document.getElementById(gridId);
+  if(!items||!items.length){
+    const l={article:'articles',journal:'journal entries',product:'products'};
+    grid.innerHTML='<div class="empty-state">No '+l[type]+' yet &mdash; check back soon!</div>';return;
+  }
+  const sorted=[...items].sort((a,b)=>(b.created||0)-(a.created||0));
+  grid.innerHTML=sorted.map(item=>{
+    const img=item.image?'<img class="card-img" src="'+esc(item.image)+'" alt="'+esc(item.title)+'" />':'<div class="card-img"></div>';
+    const price=type==='product'&&item.price?'<span class="card-price">'+esc(item.price)+'</span>':'';
+    const date=item.created?new Date(item.created).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}):'';
+    return '<div class="content-card" onclick="viewItem(\''+type+'\',\''+item.id+'\')">'+img+'<div class="card-body"><div class="card-category">'+(type==='product'?'Shop':type==='journal'?'Journal':'Article')+'</div><h3>'+esc(item.title)+'</h3><p class="card-excerpt">'+esc(item.excerpt||'')+'</p><div class="card-meta"><span>'+date+'</span>'+price+'<span class="card-read-more">'+(type==='product'?'View &rarr;':'Read &rarr;')+'</span></div></div><div class="admin-card-actions"><button onclick="event.stopPropagation();editItem(\''+type+'\',\''+item.id+'\')">Edit</button><button class="delete-btn" onclick="event.stopPropagation();deleteItem(\''+type+'\',\''+item.id+'\')">Delete</button></div></div>';
+  }).join('');
+}
+
+function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
+
+/* ═══ SINGLE VIEW ═══ */
+let currentSingleItem=null;
+
+function viewItem(type,id){
+  const d=getData();
+  const list=type==='article'?d.articles:type==='journal'?d.journal:d.products;
+  const item=list.find(i=>i.id===id);if(!item)return;
+  currentSingleItem={...item,type};
+  window.location.hash=type+'/'+id;
+  document.getElementById('main-site').style.display='none';
+  document.getElementById('single-view').style.display='block';
+  document.getElementById('single-hero-container').innerHTML=item.image?'<img class="single-hero-img" src="'+item.image+'" alt="'+esc(item.title)+'" />':'';
+  document.getElementById('single-cat').textContent=type==='product'?'Shop':type==='journal'?"Author's Journal":'Article';
+  document.getElementById('single-title').textContent=item.title;
+  document.getElementById('single-date').textContent=item.created?new Date(item.created).toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}):'';
+  const pbb=document.getElementById('single-product-buy');
+  if(type==='product'&&item.price){
+    const lnk=item.buylink?'<a href="'+esc(item.buylink)+'" target="_blank" class="btn-primary" style="margin:0">Buy Now &rarr;</a>':'<button class="btn-primary" onclick="openModal()">Buy Direct</button>';
+    pbb.innerHTML='<div class="product-buy-box"><div><div class="pbb-price">'+esc(item.price)+'</div><div class="pbb-note">DRM-free &middot; Instant delivery</div></div>'+lnk+'</div>';
+  }else pbb.innerHTML='';
+  document.getElementById('single-body').innerHTML=item.body||'<p>Content coming soon.</p>';
+  updateShareLinks();window.scrollTo(0,0);
+}
+
+function updateShareLinks(){
+  const u=encodeURIComponent(window.location.href);
+  const t=encodeURIComponent(currentSingleItem?currentSingleItem.title:'Caroline Siler');
+  document.getElementById('share-fb').href='https://www.facebook.com/sharer/sharer.php?u='+u;
+  document.getElementById('share-tw').href='https://twitter.com/intent/tweet?url='+u+'&text='+t;
+  document.getElementById('share-pin').href='https://pinterest.com/pin/create/button/?url='+u+'&description='+t;
+  document.getElementById('share-email').href='mailto:?subject='+t+'&body=Check%20this%20out:%20'+u;
+}
+function shareFB(){window.open(document.getElementById('share-fb').href,'_blank','width=600,height=400');return false}
+function shareTW(){window.open(document.getElementById('share-tw').href,'_blank','width=600,height=400');return false}
+function sharePin(){window.open(document.getElementById('share-pin').href,'_blank','width=600,height=400');return false}
+function copyLink(){navigator.clipboard.writeText(window.location.href).then(()=>showToast('Link copied!'))}
+
+function goHome(){
+  document.getElementById('single-view').style.display='none';
+  document.getElementById('main-site').style.display='block';
+  if(window.location.hash.includes('/'))history.pushState(null,'',window.location.pathname);
+}
+
+window.addEventListener('hashchange',handleHash);
+window.addEventListener('load',async()=>{
+  await Promise.all([loadAllData(),loadAdminPassword()]);
+  renderAll();handleHash();
+});
+
+function handleHash(){
+  const h=window.location.hash.slice(1);
+  if(h.includes('/')){
+    const[type,id]=h.split('/');
+    if(['article','journal','product'].includes(type)&&id){viewItem(type,id);return}
+  }
+  if(document.getElementById('single-view').style.display==='block')goHome();
+}
+
+/* ═══ CMS EDITOR ═══ */
+let _cmsSnapshot='';
+
+function getCmsFormState(){
+  return JSON.stringify({t:document.getElementById('cms-title').value,i:document.getElementById('cms-image').value,e:document.getElementById('cms-excerpt').value,b:document.getElementById('cms-body').value,p:document.getElementById('cms-price').value,l:document.getElementById('cms-buylink').value});
+}
+function cmsHasChanges(){return getCmsFormState()!==_cmsSnapshot}
+
+function openCmsEditor(type,existing){
+  document.getElementById('cms-type').value=type;
+  const labels={article:'Article',journal:'Journal Entry',product:'Product'};
+  document.getElementById('cmsEditorTitle').textContent=existing?'Edit '+labels[type]:'New '+labels[type];
+  document.getElementById('cms-price-field').style.display=type==='product'?'block':'none';
+  document.getElementById('cms-buylink-field').style.display=type==='product'?'block':'none';
+  if(existing){
+    document.getElementById('cms-id').value=existing.id;
+    document.getElementById('cms-title').value=existing.title||'';
+    document.getElementById('cms-image').value=existing.image||'';
+    document.getElementById('cms-excerpt').value=existing.excerpt||'';
+    document.getElementById('cms-body').value=existing.body||'';
+    document.getElementById('cms-price').value=existing.price||'';
+    document.getElementById('cms-buylink').value=existing.buylink||'';
+  }else{
+    ['cms-id','cms-title','cms-image','cms-excerpt','cms-body','cms-price','cms-buylink'].forEach(id=>document.getElementById(id).value='');
+  }
+  _cmsSnapshot=getCmsFormState();
+  document.getElementById('cmsOverlay').classList.add('open');
+}
+
+function requestCloseCms(){
+  if(cmsHasChanges())document.getElementById('confirmOverlay').classList.add('open');
+  else closeCmsEditorDirect();
+}
+function closeCmsEditorDirect(){
+  document.getElementById('cmsOverlay').classList.remove('open');
+  document.getElementById('confirmOverlay').classList.remove('open');
+  document.getElementById('discardOverlay').classList.remove('open');
+}
+async function confirmSaveAndClose(){document.getElementById('confirmOverlay').classList.remove('open');await saveCmsItem()}
+function confirmKeepOpen(){document.getElementById('confirmOverlay').classList.remove('open')}
+function confirmDiscardStart(){document.getElementById('discardOverlay').classList.add('open')}
+function confirmDiscardYes(){closeCmsEditorDirect();showToast('Changes discarded.')}
+function confirmDiscardNo(){document.getElementById('discardOverlay').classList.remove('open')}
+
+document.getElementById('cmsOverlay').addEventListener('click',function(e){if(e.target===this)requestCloseCms()});
+
+async function saveCmsItem(){
+  const type=document.getElementById('cms-type').value;
+  const existingId=document.getElementById('cms-id').value;
+  const item={
+    id:existingId||'item_'+Date.now()+'_'+Math.random().toString(36).substr(2,5),
+    title:document.getElementById('cms-title').value.trim(),
+    image:document.getElementById('cms-image').value.trim(),
+    excerpt:document.getElementById('cms-excerpt').value.trim(),
+    body:document.getElementById('cms-body').value,
+    price:document.getElementById('cms-price').value.trim(),
+    buylink:document.getElementById('cms-buylink').value.trim(),
+    updated:Date.now()
+  };
+  if(!item.title){alert('Please enter a title.');return}
+  const key=type==='article'?'articles':type==='journal'?'journal':'products';
+  if(existingId){
+    const idx=_cache[key].findIndex(i=>i.id===existingId);
+    if(idx>=0){item.created=_cache[key][idx].created;_cache[key][idx]=item}
+    await saveItemToFirebase(key,item);
+  }else{
+    item.created=Date.now();_cache[key].unshift(item);
+    await saveItemToFirebase(key,item);
+  }
+  closeCmsEditorDirect();renderAll();
+  showToast(existingId?'Updated!':'Published!');
+}
+
+function editItem(type,id){
+  const d=getData();const key=type==='article'?'articles':type==='journal'?'journal':'products';
+  const item=d[key].find(i=>i.id===id);if(item)openCmsEditor(type,item);
+}
+
+async function deleteItem(type,id){
+  if(!confirm('Are you sure? This cannot be undone.'))return;
+  const key=type==='article'?'articles':type==='journal'?'journal':'products';
+  _cache[key]=_cache[key].filter(i=>i.id!==id);
+  await deleteItemFromFirebase(key,id);renderAll();showToast('Deleted.');
+}
+
+function insertTag(tag){
+  const ta=document.getElementById('cms-body');
+  const s=ta.selectionStart,e=ta.selectionEnd,sel=ta.value.substring(s,e);
+  let ins='';
+  switch(tag){
+    case 'h2':ins='<h2>'+(sel||'Heading')+'</h2>';break;
+    case 'h3':ins='<h3>'+(sel||'Subheading')+'</h3>';break;
+    case 'b':ins='<b>'+(sel||'bold text')+'</b>';break;
+    case 'i':ins='<i>'+(sel||'italic text')+'</i>';break;
+    case 'blockquote':ins='<blockquote>'+(sel||'A quote...')+'</blockquote>';break;
+    case 'img':ins='<img src="'+(sel||'paste-image-url-here')+'" alt="description" />';break;
+    case 'p':ins='<p>'+(sel||'Your paragraph...')+'</p>';break;
+    case 'a':ins='<a href="URL">'+(sel||'link text')+'</a>';break;
+  }
+  ta.value=ta.value.substring(0,s)+ins+ta.value.substring(e);
+  ta.focus();ta.selectionStart=ta.selectionEnd=s+ins.length;
+}
+
+/* ═══ BUY MODAL ═══ */
+function openModal(){
+  document.getElementById('modal').classList.add('open');
+  document.querySelectorAll('.format-opt').forEach(o=>{
+    o.addEventListener('click',()=>{document.querySelectorAll('.format-opt').forEach(x=>x.classList.remove('sel'));o.classList.add('sel')});
   });
+}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+function addToCart(){closeModal();showToast('Added! Redirecting to checkout...')}
 
-  function addToCart() {
-    closeModal();
-    const toast = document.getElementById("toast");
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 3500);
-    // 👉 Replace this with your Lemon Squeezy / Gumroad / Stripe checkout URL:
-    // window.location.href = "https://your-store.lemonsqueezy.com/checkout/...";
-  }
+/* ═══ MOBILE ═══ */
+function openMobileMenu(){document.getElementById('mobileOverlay').classList.add('open');document.getElementById('mobileDrawer').classList.add('open')}
+function closeMobileMenu(){document.getElementById('mobileOverlay').classList.remove('open');document.getElementById('mobileDrawer').classList.remove('open')}
 
-  function openCart() {
-    alert("Cart / checkout — connect your Lemon Squeezy or Gumroad store link here.");
-  }
+/* ═══ NEWSLETTER ═══ */
+function handleNL(e){e.preventDefault();const b=e.target.querySelector('button');b.textContent="You're in!";b.style.background='#2d5a30'}
 
-  function handleNL(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector("button");
-    btn.textContent = "✓ You're in!";
-    btn.style.background = "#2d5a30";
-    // 👉 Connect to Kit (ConvertKit), Mailchimp, or MailerLite here
-  }
+/* ═══ TOAST ═══ */
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
 
-  // Scroll reveal
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = "1"; e.target.style.transform = "translateY(0)"; } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll(".review, .step, .fact").forEach(el => {
-    el.style.opacity = "0"; el.style.transform = "translateY(16px)";
-    el.style.transition = "opacity 0.55s ease, transform 0.55s ease";
-    obs.observe(el);
-  });
+/* ═══ SCROLL REVEAL ═══ */
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}})},{threshold:.1});
+document.querySelectorAll('.review,.step,.fact').forEach(el=>{el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .55s ease,transform .55s ease';obs.observe(el)});
 </script>
 </body>
 </html>
