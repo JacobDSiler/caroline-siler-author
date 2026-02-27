@@ -587,6 +587,8 @@
       <input type="password" id="adminCode" placeholder="Password" onkeydown="if(event.key==='Enter')tryAdminLogin()" />
       <button class="admin-login-btn" onclick="tryAdminLogin()">Log In</button>
       <p class="admin-login-error" id="adminError">Incorrect password. Please try again.</p>
+      <a style="display:block;text-align:center;margin-top:.75rem;font-size:.78rem;color:var(--rose);cursor:pointer;text-decoration:underline;" onclick="sendPasswordRecovery()">Forgot password?</a>
+      <p id="recoveryMsg" style="display:none;font-size:.82rem;text-align:center;margin-top:.5rem;"></p>
     </div>
   </div>
 </div>
@@ -619,6 +621,8 @@
 <!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<!-- EMAILJS -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 /* ═══ FIREBASE CONFIG ═══ */
 firebase.initializeApp({
@@ -630,6 +634,50 @@ firebase.initializeApp({
   appId:"1:468675734009:web:6dad97bb25789150453528"
 });
 const db=firebase.firestore();
+
+/* ═══ EMAILJS CONFIG ═══
+   Replace these with your real IDs from emailjs.com */
+const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";    // e.g. "service_abc123"
+const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";   // e.g. "template_xyz789"
+const EMAILJS_PUBLIC_KEY   = "YOUR_PUBLIC_KEY";    // e.g. "user_ABCdef123"
+
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+/* ═══ PASSWORD RECOVERY ═══ */
+let _recoveryEmail=null;
+
+async function loadRecoveryEmail(){
+  try{
+    const doc=await db.collection('admin_settings').doc('auth').get();
+    if(doc.exists&&doc.data().recovery_email)_recoveryEmail=doc.data().recovery_email;
+  }catch(e){console.error('Recovery email load error:',e)}
+}
+
+async function sendPasswordRecovery(){
+  const msg=document.getElementById('recoveryMsg');
+  msg.style.display='block';msg.style.color='var(--mid-gray)';msg.textContent='Sending recovery email...';
+
+  // Reload latest from Firebase
+  try{
+    const doc=await db.collection('admin_settings').doc('auth').get();
+    if(!doc.exists||!doc.data().recovery_email){
+      msg.style.color='#c0392b';msg.textContent='No recovery email is set up. Please contact your site admin.';return;
+    }
+    const email=doc.data().recovery_email;
+    const pw=doc.data().password||DEFAULT_PASSWORD;
+
+    await emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{
+      to_email:email,
+      password:pw,
+      site_name:"Caroline Siler Author Site",
+      reset_time:new Date().toLocaleString('en-US',{dateStyle:'full',timeStyle:'short'})
+    });
+    msg.style.color='#2d5a30';msg.textContent='Recovery email sent! Check your inbox.';
+  }catch(e){
+    console.error('EmailJS error:',e);
+    msg.style.color='#c0392b';msg.textContent='Could not send email. Please try again later.';
+  }
+}
 
 /* ═══ DEFAULT PASSWORD ═══
    Only used if Firestore has no admin_settings/auth doc yet.
@@ -803,7 +851,7 @@ function goHome(){
 
 window.addEventListener('hashchange',handleHash);
 window.addEventListener('load',async()=>{
-  await Promise.all([loadAllData(),loadAdminPassword()]);
+  await Promise.all([loadAllData(),loadAdminPassword(),loadRecoveryEmail()]);
   renderAll();handleHash();
 });
 
