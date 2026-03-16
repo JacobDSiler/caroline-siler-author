@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Caroline's Studio — Admin</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #fdf8f2;
+      --warm-white: #fffef9;
+      --blush: #e8c4b8;
+      --blush-light: #f5e6df;
+      --rose: #d4728a;
+      --deep-rose: #b5536b;
+      --burgundy: #8b1a3a;
+      --deep-burg: #6b1028;
+      --gold: #c9a84c;
+      --gold-light: #e8d199;
+      --sage: #7a9e7e;
+      --sage-light: #c5d4c2;
+      --charcoal: #2c2c2c;
+      --mid-gray: #6b6b6b;
+      --light-gray: #e8e4df;
+      --paper: #fffef9;
+      --border: 1px solid var(--blush);
+      --border-light: 1px solid var(--light-gray);
+      --shadow-sm: 0 2px 12px rgba(139,26,58,.07);
+      --shadow-md: 0 8px 32px rgba(139,26,58,.1);
+      --shadow-lg: 0 20px 60px rgba(139,26,58,.15);
+      --radius: 6px;
+      --transition: 0.2s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--cream);
+      color: var(--charcoal);
+      min-height: 100vh;
+    }
+
+    /* ── Login Screen ── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #fdf0ea 0%, #f5e6e0 50%, #ede8f0 100%);
+      padding: 2rem;
+    }
+
+    .login-card {
+      background: var(--warm-white);
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 400px;
+      overflow: hidden;
+      border: var(--border-light);
+    }
+
+    .login-card-top {
+      background: linear-gradient(135deg, var(--deep-burg) 0%, var(--burgundy) 60%, #a04060 100%);
+      padding: 2.5rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .login-script {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2rem;
+      color: var(--gold-light);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .login-subtitle {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .login-card-body { padding: 2rem; }
+
+    .login-label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .login-input {
+      width: 100%;
+      border: 1.5px solid var(--light-gray);
+      border-radius: var(--radius);
+      padding: 0.85rem 1rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 0.1em;
+      outline: none;
+      margin-bottom: 1.25rem;
+      transition: border-color var(--transition);
+      background: var(--cream);
+    }
+
+    .login-input:focus { border-color: var(--rose); background: var(--warm-white); }
+
+    .login-btn {
+      width: 100%;
+      background: var(--burgundy);
+      color: #fff;
+      border: none;
+      padding: 0.9rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: var(--radius);
+      transition: background var(--transition);
+    }
+
+    .login-btn:hover { background: var(--deep-burg); }
+
+    .login-error {
+      background: #fef0f0;
+      border: 1px solid #f5c6c6;
+      color: #c0392b;
+      font-size: 0.8rem;
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+      display: none;
+      text-align: center;
+    }
+
+    .login-error.show { display: block; }
+
+    .login-forgot {
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      color: var(--rose);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      background: none;
+      border: none;
+      font-family: 'Lato', sans-serif;
+      width: 100%;
+    }
+
+    .login-forgot:hover { color: var(--burgundy); }
+
+    /* ── Admin Panel ── */
+    #admin-panel { display: none; min-height: 100vh; }
+
+    /* ── Top Bar ── */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: var(--warm-white);
+      border-bottom: var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .top-bar-logo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      color: var(--burgundy);
+    }
+
+    .top-bar-divider {
+      width: 1px;
+      height: 24px;
+      background: var(--blush);
+    }
+
+    .top-bar-page {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+    }
+
+    .top-bar-right { display: flex; align-items: center; gap: 0.75rem; }
+
+    .top-bar-btn {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.45rem 1rem;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: 1.5px solid var(--light-gray);
+      background: var(--warm-white);
+      color: var(--mid-gray);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .top-bar-btn:hover { border-color: var(--burgundy); color: var(--burgundy); }
+
+    .top-bar-btn--danger:hover { border-color: #c0392b; color: #c0392b; }
+
+    /* ── Layout ── */
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: calc(100vh - 60px);
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      border-right: var(--border);
+      background: var(--warm-white);
+      padding: 1.5rem 0;
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
+    }
+
+    .sidebar-section-label {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blush);
+      padding: 0 1.25rem;
+      margin-bottom: 0.5rem;
+      margin-top: 1.25rem;
+    }
+
+    .sidebar-section-label:first-child { margin-top: 0; }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--mid-gray);
+      cursor: pointer;
+      transition: all var(--transition);
+      border-left: 3px solid transparent;
+      letter-spacing: 0.02em;
+    }
+
+    .sidebar-item:hover { color: var(--burgundy); background: var(--blush-light); }
+
+    .sidebar-item.active {
+      color: var(--burgundy);
+      border-left-color: var(--rose);
+      background: var(--blush-light);
+    }
+
+    .sidebar-icon { font-size: 1rem; width: 18px; text-align: center; flex-shrink: 0; }
+
+    .sidebar-count {
+      margin-left: auto;
+      font-size: 0.65rem;
+      background: var(--blush-light);
+      color: var(--rose);
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-weight: 700;
+    }
+
+    /* ── Main ── */
+    .main-content { padding: 2rem 2.5rem; background: var(--cream); }
+
+    /* ── Page Header ── */
+    .page-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: var(--border-light);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      color: var(--burgundy);
+      line-height: 1.2;
+    }
+
+    .page-title em { font-style: italic; color: var(--rose); }
+
+    .page-sub {
+      font-size: 0.82rem;
+      color: var(--mid-gray);
+      margin-top: 0.25rem;
+      line-height: 1.6;
+    }
+
+    /* ── Section ── */
+    .admin-section { display: none; }
+    .admin-section.active { display: block; }
+
+    /* ── Stats Row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--warm-white);
+      border: var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    .stat-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--burgundy);
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-top: 0.25rem;
+    }
+
+    /* ── Content List ── */
+    .content-list {
+      background: var(--warm-white);
+      border: var(--border-light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .content-list-header {
+      padding: 1rem 1.5rem;
+      border-bottom: var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--blush-light);
+    }
+
+    .content-list-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--burgundy);
+      font-weight: 600;
+    }
+
+    .content-list-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      border-bottom: var(--border-light);
+      transition: background var(--transition);
+    }
+
+    .content-list-item:last-child { border-bottom: none; }
+    .content-list-item:hover { background: var(--blush-light); }
+
+    .content-list-thumb {
+      width: 52px;
+      height: 52px;
+      object-fit: cover;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--blush) 0%, var(--sage-light) 100%);
+      flex-shrink: 0;
+    }
+
+    .content-list-info {}
+
+    .content-list-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      color: var(--charcoal);
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .content-list-meta {
+      font-size: 0.72rem;
+      color: var(--mid-gray);
+      letter-spacing: 0.03em;
+    }
+
+    .content-list-actions { display: flex; gap: 0.4rem; }
+
+    .action-btn {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.8rem;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all var(--transition);
+      border: 1.5px solid var(--light-gray);
+      background: var(--warm-white);
+      color: var(--mid-gray);
+    }
+
+    .action-btn:hover { border-color: var(--rose); color: var(--rose); }
+    .action-btn--danger:hover { border-color: #c0392b; color: #c0392b; }
+
+    .empty-state {
+      padding: 3rem;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--mid-gray);
+      font-size: 1rem;
+    }
+
+    /* ── Add Button ── */
+    .add-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--burgundy);
+      color: #fff;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: var(--radius);
+      transition: background var(--transition);
+    }
+
+    .add-btn:hover { background: var(--deep-burg); }
+
+    /* ── Editor Overlay ── */
+    .editor-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(44,20,28,0.65);
+      align-items: flex-start;
+      justify-content: center;
+      overflow-y: auto;
+      padding: 2rem 1rem 3rem;
+      backdrop-filter: blur(3px);
+    }
+
+    .editor-overlay.open { display: flex; }
+
+    .editor-box {
+      background: var(--warm-white);
+      width: 100%;
+      max-width: 660px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: var(--border-light);
+      margin: auto;
+    }
+
+    .editor-head {
+      background: linear-gradient(135deg, var(--deep-burg), var(--burgundy));
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .editor-head-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: #fff;
+      font-style: italic;
+    }
+
+    .editor-head-sub {
+      font-family: 'Dancing Script', cursive;
+      font-size: 0.9rem;
+      color: var(--gold-light);
+      margin-top: 0.1rem;
+    }
+
+    .editor-close {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition);
+      flex-shrink: 0;
+    }
+
+    .editor-close:hover { background: rgba(255,255,255,0.25); }
+
+    .editor-body { padding: 2rem; }
+
+    .form-group { margin-bottom: 1.25rem; }
+
+    .form-label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+      margin-bottom: 0.4rem;
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      border: 1.5px solid var(--light-gray);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.92rem;
+      color: var(--charcoal);
+      background: var(--cream);
+      outline: none;
+      transition: border-color var(--transition), background var(--transition);
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--rose);
+      background: var(--warm-white);
+    }
+
+    .form-textarea { min-height: 180px; resize: vertical; line-height: 1.7; }
+    .form-small { font-size: 0.72rem; color: var(--mid-gray); margin-top: 0.3rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* Rich text toolbar */
+    .cms-toolbar {
+      display: flex;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+
+    .cms-toolbar-btn {
+      padding: 0.3rem 0.65rem;
+      border: 1.5px solid var(--light-gray);
+      background: var(--cream);
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      color: var(--mid-gray);
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      transition: all var(--transition);
+    }
+
+    .cms-toolbar-btn:hover { border-color: var(--rose); color: var(--rose); }
+
+    .editor-save {
+      width: 100%;
+      background: var(--burgundy);
+      color: #fff;
+      border: none;
+      padding: 1rem;
+      font-family: 'Lato', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: var(--radius);
+      transition: background var(--transition);
+      margin-top: 0.5rem;
+    }
+
+    .editor-save:hover { background: var(--deep-burg); }
+
+    /* ── Change Password Overlay ── */
+    .chpw-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(44,20,28,0.65);
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(3px);
+    }
+
+    .chpw-overlay.open { display: flex; }
+
+    .chpw-box {
+      background: var(--warm-white);
+      width: 90%;
+      max-width: 380px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .chpw-head {
+      background: var(--charcoal);
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chpw-head h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: #fff;
+      font-style: italic;
+    }
+
+    .chpw-close {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: #fff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chpw-body { padding: 1.5rem; }
+
+    .chpw-msg {
+      font-size: 0.8rem;
+      text-align: center;
+      margin-top: 0.75rem;
+      display: none;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--charcoal);
+      color: #fff;
+      padding: 0.85rem 1.5rem;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-md);
+      border-left: 3px solid var(--rose);
+      max-width: 320px;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.toast--success { border-left-color: var(--sage); }
+
+    /* ── Motivational quote ── */
+    .motivation-bar {
+      background: linear-gradient(135deg, var(--deep-burg), var(--burgundy));
+      border-radius: var(--radius);
+      padding: 1.25rem 1.75rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .motivation-bar-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+    .motivation-bar-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.9);
+      line-height: 1.6;
+    }
+
+    .motivation-bar-attr {
+      font-family: 'Dancing Script', cursive;
+      font-size: 0.85rem;
+      color: var(--gold-light);
+      margin-top: 0.2rem;
+    }
+
+    /* ── Settings ── */
+    .settings-card {
+      background: var(--warm-white);
+      border: var(--border-light);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.5rem;
+      max-width: 500px;
+    }
+
+    .settings-card-head {
+      background: var(--blush-light);
+      border-bottom: var(--border-light);
+      padding: 1rem 1.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--burgundy);
+    }
+
+    .settings-card-body { padding: 1.5rem; }
+
+    /* ── Loading ── */
+    .loading-shimmer {
+      background: linear-gradient(90deg, var(--blush-light) 25%, #f5ebe5 50%, var(--blush-light) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 4px;
+      height: 60px;
+      margin-bottom: 0.75rem;
+    }
+
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .admin-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; display: flex; overflow-x: auto; padding: 0.5rem; gap: 0.25rem; border-right: none; border-bottom: var(--border); }
+      .sidebar-section-label { display: none; }
+      .sidebar-item { border-left: none; border-bottom: 3px solid transparent; white-space: nowrap; padding: 0.5rem 0.75rem; }
+      .sidebar-item.active { border-bottom-color: var(--rose); border-left: none; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .main-content { padding: 1.25rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .top-bar { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     LOGIN SCREEN
+══════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-card-top">
+      <span class="login-script">Caroline's Studio</span>
+      <div class="login-subtitle">Author Admin Panel</div>
+    </div>
+    <div class="login-card-body">
+      <div class="login-error" id="login-error">Incorrect password. Please try again.</div>
+      <label class="login-label" for="login-pw">Password</label>
+      <input type="password" id="login-pw" class="login-input" placeholder="Enter your password"
+        onkeydown="if(event.key==='Enter')doLogin()" autocomplete="current-password" />
+      <button class="login-btn" onclick="doLogin()">Enter the Studio</button>
+      <button class="login-forgot" onclick="doForgotPassword()">Forgot password?</button>
+      <p id="recovery-msg" style="display:none;font-size:.78rem;text-align:center;margin-top:.75rem;color:var(--sage);"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     ADMIN PANEL
+══════════════════════════════════ -->
+<div id="admin-panel">
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <span class="top-bar-logo">Caroline Siler</span>
+      <div class="top-bar-divider"></div>
+      <span class="top-bar-page" id="top-bar-section-label">Dashboard</span>
+    </div>
+    <div class="top-bar-right">
+      <a href="https://carolinesiler.com" target="_blank" class="top-bar-btn">← View Site</a>
+      <button class="top-bar-btn" onclick="openChpw()">🔑 Password</button>
+      <button class="top-bar-btn top-bar-btn--danger" onclick="doLogout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="admin-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section-label">Content</div>
+      <div class="sidebar-item active" data-section="dashboard" onclick="switchSection('dashboard', 'Dashboard')">
+        <span class="sidebar-icon">🌸</span> Dashboard
+      </div>
+      <div class="sidebar-item" data-section="articles" onclick="switchSection('articles', 'Articles')">
+        <span class="sidebar-icon">✍️</span> Articles
+        <span class="sidebar-count" id="count-articles">0</span>
+      </div>
+      <div class="sidebar-item" data-section="journal" onclick="switchSection('journal', 'Journal')">
+        <span class="sidebar-icon">📔</span> Journal
+        <span class="sidebar-count" id="count-journal">0</span>
+      </div>
+      <div class="sidebar-item" data-section="products" onclick="switchSection('products', 'Shop')">
+        <span class="sidebar-icon">📚</span> Shop
+        <span class="sidebar-count" id="count-products">0</span>
+      </div>
+      <div class="sidebar-section-label">Admin</div>
+      <div class="sidebar-item" data-section="settings" onclick="switchSection('settings', 'Settings')">
+        <span class="sidebar-icon">⚙️</span> Settings
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+      <!-- ─── DASHBOARD ─── -->
+      <div id="section-dashboard" class="admin-section active">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Good to see you, <em>Caroline.</em></div>
+            <div class="page-sub">Here's how your site is doing today.</div>
+          </div>
+        </div>
+
+        <div class="motivation-bar" id="motivation-bar">
+          <div class="motivation-bar-icon">✨</div>
+          <div>
+            <div class="motivation-bar-text" id="motivation-quote">Loading your daily inspiration...</div>
+            <div class="motivation-bar-attr" id="motivation-attr"></div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-icon">✍️</div>
+            <div class="stat-num" id="stat-articles">—</div>
+            <div class="stat-label">Articles</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📔</div>
+            <div class="stat-num" id="stat-journal">—</div>
+            <div class="stat-label">Journal Entries</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-num" id="stat-products">—</div>
+            <div class="stat-label">Shop Items</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📖</div>
+            <div class="stat-num">1</div>
+            <div class="stat-label">Books Published</div>
+          </div>
+        </div>
+
+        <div class="content-list">
+          <div class="content-list-header">
+            <span class="content-list-title">Recent Content</span>
+          </div>
+          <div id="dashboard-recent">
+            <div style="padding:1.5rem;">
+              <div class="loading-shimmer"></div>
+              <div class="loading-shimmer"></div>
+              <div class="loading-shimmer"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── ARTICLES ─── -->
+      <div id="section-articles" class="admin-section">
+        <div class="page-header">
+          <div>
+            <div class="page-title"><em>Articles</em></div>
+            <div class="page-sub">Thoughts on writing, small town living, and the stories that shape us.</div>
+          </div>
+          <button class="add-btn" onclick="openEditor('article')">+ New Article</button>
+        </div>
+        <div class="content-list" id="list-articles">
+          <div style="padding:1.5rem;"><div class="loading-shimmer"></div><div class="loading-shimmer"></div></div>
+        </div>
+      </div>
+
+      <!-- ─── JOURNAL ─── -->
+      <div id="section-journal" class="admin-section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Author's <em>Journal</em></div>
+            <div class="page-sub">Behind the scenes, personal reflections, and notes from the writing life.</div>
+          </div>
+          <button class="add-btn" onclick="openEditor('journal')">+ New Entry</button>
+        </div>
+        <div class="content-list" id="list-journal">
+          <div style="padding:1.5rem;"><div class="loading-shimmer"></div><div class="loading-shimmer"></div></div>
+        </div>
+      </div>
+
+      <!-- ─── PRODUCTS ─── -->
+      <div id="section-products" class="admin-section">
+        <div class="page-header">
+          <div>
+            <div class="page-title">The <em>Shop</em></div>
+            <div class="page-sub">Books, audiobooks, and exclusive extras — direct from the author.</div>
+          </div>
+          <button class="add-btn" onclick="openEditor('product')">+ New Product</button>
+        </div>
+        <div class="content-list" id="list-products">
+          <div style="padding:1.5rem;"><div class="loading-shimmer"></div><div class="loading-shimmer"></div></div>
+        </div>
+      </div>
+
+      <!-- ─── SETTINGS ─── -->
+      <div id="section-settings" class="admin-section">
+        <div class="page-header">
+          <div>
+            <div class="page-title"><em>Settings</em></div>
+            <div class="page-sub">Manage your password and account details.</div>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-head">🔑 Change Password</div>
+          <div class="settings-card-body">
+            <div class="form-group">
+              <label class="form-label">Current Password</label>
+              <input type="password" id="s-cur" class="form-input" placeholder="Current password" autocomplete="current-password" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">New Password</label>
+              <input type="password" id="s-new" class="form-input" placeholder="New password (min. 6 characters)" autocomplete="new-password" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Confirm New Password</label>
+              <input type="password" id="s-confirm" class="form-input" placeholder="Repeat new password" autocomplete="new-password" />
+            </div>
+            <button class="add-btn" onclick="doChangePassword()">Update Password</button>
+            <p id="settings-pw-msg" style="display:none;font-size:.8rem;margin-top:.75rem;"></p>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-card-head">🌐 Site Link</div>
+          <div class="settings-card-body">
+            <p style="font-size:.85rem;color:var(--mid-gray);line-height:1.7;">
+              Your site is live at <a href="https://carolinesiler.com" target="_blank" style="color:var(--rose);text-decoration:underline;">carolinesiler.com ↗</a>
+              <br>Content you add here appears on your site immediately.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     CONTENT EDITOR OVERLAY
+══════════════════════════════════ -->
+<div class="editor-overlay" id="editor-overlay">
+  <div class="editor-box">
+    <div class="editor-head">
+      <div>
+        <div class="editor-head-title" id="editor-title-label">New Article</div>
+        <div class="editor-head-sub" id="editor-sub-label">From Caroline's Desk</div>
+      </div>
+      <button class="editor-close" onclick="closeEditor()">&times;</button>
+    </div>
+    <div class="editor-body">
+      <input type="hidden" id="cms-id" />
+      <input type="hidden" id="cms-type" />
+
+      <div class="form-group">
+        <label class="form-label">Title *</label>
+        <input type="text" id="cms-title" class="form-input" placeholder="Give your piece a beautiful title..." />
+      </div>
+
+      <div id="cms-product-fields" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Price</label>
+            <input type="text" id="cms-price" class="form-input" placeholder="e.g. $14.99" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Buy / Checkout Link</label>
+            <input type="url" id="cms-buylink" class="form-input" placeholder="https://..." />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Featured Image URL</label>
+        <input type="text" id="cms-image" class="form-input" placeholder="Paste image URL from postimages.org..." />
+        <p class="form-small">Upload at <a href="https://postimages.org" target="_blank" style="color:var(--rose);">postimages.org ↗</a> then paste the Direct Link here.</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Short Description <span style="font-weight:400;text-transform:none;letter-spacing:0;">(shown on the card)</span></label>
+        <textarea id="cms-excerpt" class="form-textarea" rows="2" style="min-height:70px;" placeholder="A warm, brief teaser — 1 or 2 sentences..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Full Content</label>
+        <div class="cms-toolbar">
+          <button type="button" class="cms-toolbar-btn" onclick="insertTag('h2')">H2</button>
+          <button type="button" class="cms-toolbar-btn" onclick="insertTag('h3')">H3</button>
+          <button type="button" class="cms-toolbar-btn" onclick="insertTag('b')"><b>B</b></button>
+          <button type="button" class="cms-toolbar-btn" onclick="insertTag('i')"><i>I</i></button>
+          <button type="button" class="cms-toolbar-btn" onclick="insertTag('blockquote')">" Quote</button>
+          <button type="button" class="cms-toolbar-btn" onclick="insertTag('img')">🖼 Image</button>
+          <button type="button" class="cms-toolbar-btn" onclick="insertTag('p')">¶ Para</button>
+          <button type="button" class="cms-toolbar-btn" onclick="insertTag('a')">🔗 Link</button>
+        </div>
+        <textarea id="cms-body" class="form-textarea" placeholder="Write your full piece here. You can use HTML tags or just plain paragraphs — your words are what matter most."></textarea>
+        <p class="form-small">Tip: wrap paragraphs in &lt;p&gt; tags. Use &lt;h2&gt; for section headings.</p>
+      </div>
+
+      <button class="editor-save" id="editor-save-btn" onclick="saveItem()">Publish</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     CHANGE PASSWORD OVERLAY
+══════════════════════════════════ -->
+<div class="chpw-overlay" id="chpw-overlay">
+  <div class="chpw-box">
+    <div class="chpw-head">
+      <h3>Change Password</h3>
+      <button class="chpw-close" onclick="closeChpw()">&times;</button>
+    </div>
+    <div class="chpw-body">
+      <div class="form-group">
+        <label class="form-label">Current Password</label>
+        <input type="password" id="chpw-cur" class="form-input" placeholder="Current password" autocomplete="current-password" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">New Password</label>
+        <input type="password" id="chpw-new" class="form-input" placeholder="New password" autocomplete="new-password" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirm</label>
+        <input type="password" id="chpw-confirm" class="form-input" placeholder="Confirm new password" autocomplete="new-password" />
+      </div>
+      <button class="editor-save" onclick="doChangePasswordOverlay()">Update Password</button>
+      <p class="chpw-msg" id="chpw-msg"></p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<!-- EmailJS (for forgot password) -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+/* ═══════════════════════════════════════
+   FIREBASE — same config as the main site
+═══════════════════════════════════════ */
+firebase.initializeApp({
+  apiKey: "AIzaSyCLkmmBlUKAWcUChFADozbqWD7veHl12xc",
+  authDomain: "caroline-siler-author.firebaseapp.com",
+  projectId: "caroline-siler-author",
+  storageBucket: "caroline-siler-author.firebasestorage.app",
+  messagingSenderId: "468675734009",
+  appId: "1:468675734009:web:6dad97bb25789150453528"
+});
+const db = firebase.firestore();
+
+/* ═══════════════════════════════════════
+   EMAILJS — paste Caroline's real IDs here
+   (same ones used in the main site)
+═══════════════════════════════════════ */
+const EMAILJS_SERVICE_ID  = "YOUR_SERVICE_ID";
+const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+const EMAILJS_PUBLIC_KEY  = "YOUR_PUBLIC_KEY";
+emailjs.init(EMAILJS_PUBLIC_KEY);
+
+/* ═══════════════════════════════════════
+   AUTH — reads from same Firebase auth doc
+═══════════════════════════════════════ */
+const DEFAULT_PASSWORD = "caroline2025";
+let _adminPassword = null;
+let _pwFromFirestore = false;
+let isLoggedIn = false;
+
+const QUOTES = [
+  { text: "A writer only begins a book. A reader finishes it.", attr: "— Samuel Johnson" },
+  { text: "There is no greater agony than bearing an untold story inside you.", attr: "— Maya Angelou" },
+  { text: "Fill your paper with the breathings of your heart.", attr: "— William Wordsworth" },
+  { text: "You can always edit a bad page. You can't edit a blank page.", attr: "— Jodi Picoult" },
+  { text: "Start writing, no matter what. The water does not flow until the faucet is turned on.", attr: "— Louis L'Amour" },
+  { text: "The first draft is just you telling yourself the story.", attr: "— Terry Pratchett" },
+  { text: "Write what should not be forgotten.", attr: "— Isabel Allende" },
+  { text: "Keep writing. Keep doing it and doing it.", attr: "— Ray Bradbury" },
+  { text: "Every book you've ever read is just a different combination of 26 letters.", attr: "" },
+  { text: "One day I will find the right words, and they will be simple.", attr: "— Jack Kerouac" },
+];
+
+async function loadAdminPassword() {
+  try {
+    const doc = await db.collection('admin_settings').doc('auth').get();
+    if (doc.exists && doc.data().password) {
+      _adminPassword = doc.data().password;
+      _pwFromFirestore = true;
+    } else {
+      _adminPassword = DEFAULT_PASSWORD;
+      _pwFromFirestore = false;
+    }
+  } catch(e) {
+    _adminPassword = DEFAULT_PASSWORD;
+    _pwFromFirestore = false;
+  }
+}
+
+async function saveAdminPassword(pw) {
+  await db.collection('admin_settings').doc('auth').set({ password: pw }, { merge: true });
+  _adminPassword = pw;
+  _pwFromFirestore = true;
+}
+
+/* ═══════════════════════════════════════
+   LOGIN
+═══════════════════════════════════════ */
+async function doLogin() {
+  const input = document.getElementById('login-pw').value;
+  const errEl = document.getElementById('login-error');
+  const btn = document.querySelector('.login-btn');
+  btn.textContent = 'Opening the studio...';
+  btn.disabled = true;
+  await loadAdminPassword();
+
+  const valid = (_pwFromFirestore && input === _adminPassword) ||
+                (!_pwFromFirestore && input === DEFAULT_PASSWORD);
+
+  if (valid) {
+    isLoggedIn = true;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    errEl.classList.remove('show');
+    loadAllData();
+    showMotivation();
+  } else {
+    errEl.classList.add('show');
+    btn.textContent = 'Enter the Studio';
+    btn.disabled = false;
+  }
+}
+
+function doLogout() {
+  isLoggedIn = false;
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-pw').value = '';
+}
+
+async function doForgotPassword() {
+  const msg = document.getElementById('recovery-msg');
+  msg.style.display = 'block';
+  msg.style.color = 'var(--mid-gray)';
+  msg.textContent = 'Sending recovery email...';
+  try {
+    const doc = await db.collection('admin_settings').doc('auth').get();
+    if (!doc.exists || !doc.data().recovery_email) {
+      msg.style.color = '#c0392b';
+      msg.textContent = 'No recovery email set up. Ask Jacob to set one.';
+      return;
+    }
+    const email = doc.data().recovery_email;
+    const pw = doc.data().password || DEFAULT_PASSWORD;
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email: email, password: pw,
+      site_name: "Caroline Siler Author Site",
+      reset_time: new Date().toLocaleString('en-US', { dateStyle: 'full', timeStyle: 'short' })
+    });
+    msg.style.color = 'var(--sage)';
+    msg.textContent = '✓ Recovery email sent! Check your inbox.';
+  } catch(e) {
+    msg.style.color = '#c0392b';
+    msg.textContent = 'Could not send. Please try again later.';
+  }
+}
+
+/* ═══════════════════════════════════════
+   DATA
+═══════════════════════════════════════ */
+let _cache = { articles: [], journal: [], products: [] };
+
+async function loadAllData() {
+  try {
+    const [a, j, p] = await Promise.all([
+      db.collection('articles').orderBy('created', 'desc').get(),
+      db.collection('journal').orderBy('created', 'desc').get(),
+      db.collection('products').orderBy('created', 'desc').get()
+    ]);
+    _cache.articles = a.docs.map(d => ({ id: d.id, ...d.data() }));
+    _cache.journal  = j.docs.map(d => ({ id: d.id, ...d.data() }));
+    _cache.products = p.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch(e) {
+    showToast('Could not load data. Check your connection.', false);
+  }
+  renderAll();
+}
+
+function renderAll() {
+  updateCounts();
+  renderList('articles', _cache.articles, 'article');
+  renderList('journal',  _cache.journal,  'journal');
+  renderList('products', _cache.products, 'product');
+  renderDashboard();
+}
+
+function updateCounts() {
+  document.getElementById('count-articles').textContent = _cache.articles.length;
+  document.getElementById('count-journal').textContent  = _cache.journal.length;
+  document.getElementById('count-products').textContent = _cache.products.length;
+  document.getElementById('stat-articles').textContent  = _cache.articles.length;
+  document.getElementById('stat-journal').textContent   = _cache.journal.length;
+  document.getElementById('stat-products').textContent  = _cache.products.length;
+}
+
+function renderDashboard() {
+  const all = [
+    ..._cache.articles.map(i => ({ ...i, _type: 'article' })),
+    ..._cache.journal.map(i =>  ({ ...i, _type: 'journal' })),
+    ..._cache.products.map(i => ({ ...i, _type: 'product' })),
+  ].sort((a, b) => (b.updated || b.created || 0) - (a.updated || a.created || 0)).slice(0, 5);
+
+  const container = document.getElementById('dashboard-recent');
+  if (!all.length) {
+    container.innerHTML = '<div class="empty-state">Nothing yet — create your first piece above!</div>';
+    return;
+  }
+  container.innerHTML = all.map(item => buildListItem(item, item._type, false)).join('');
+}
+
+function renderList(key, items, type) {
+  const el = document.getElementById('list-' + key);
+  const labels = { article: 'Article', journal: 'Journal Entry', product: 'Shop Item' };
+  const header = `<div class="content-list-header"><span class="content-list-title">${items.length} ${labels[type]}${items.length !== 1 ? 's' : ''}</span><button class="add-btn" style="font-size:.68rem;padding:.4rem 1rem;" onclick="openEditor('${type}')">+ Add</button></div>`;
+  if (!items.length) {
+    el.innerHTML = header + '<div class="empty-state">No ' + key + ' yet — write your first one!</div>';
+    return;
+  }
+  el.innerHTML = header + items.map(item => buildListItem(item, type, true)).join('');
+}
+
+function buildListItem(item, type, showActions) {
+  const date = item.created ? new Date(item.created).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+  const typeLabel = { article: '✍️ Article', journal: '📔 Journal', product: '📚 Shop' };
+  const thumb = item.image
+    ? `<img class="content-list-thumb" src="${esc(item.image)}" alt="${esc(item.title)}" />`
+    : `<div class="content-list-thumb" style="display:flex;align-items:center;justify-content:center;font-size:1.5rem;">${type === 'article' ? '✍️' : type === 'journal' ? '📔' : '📚'}</div>`;
+  const actions = showActions ? `
+    <div class="content-list-actions">
+      <button class="action-btn" onclick="editItem('${type}','${item.id}')">Edit</button>
+      <button class="action-btn action-btn--danger" onclick="deleteItem('${type}','${item.id}','${esc(item.title)}')">Delete</button>
+    </div>` : '';
+  return `
+    <div class="content-list-item">
+      ${thumb}
+      <div class="content-list-info">
+        <div class="content-list-name">${esc(item.title)}</div>
+        <div class="content-list-meta">${typeLabel[type]} · ${date}${item.price ? ' · ' + esc(item.price) : ''}</div>
+      </div>
+      ${actions}
+    </div>`;
+}
+
+/* ═══════════════════════════════════════
+   EDITOR
+═══════════════════════════════════════ */
+let _editingId = null;
+let _editingType = null;
+
+const editorLabels = {
+  article: { title: 'New Article', sub: 'From Caroline\'s Desk' },
+  journal: { title: 'New Journal Entry', sub: 'The Writing Life' },
+  product: { title: 'New Shop Item', sub: 'Caroline\'s Shop' },
+};
+
+const editorEditLabels = {
+  article: { title: 'Edit Article', sub: 'From Caroline\'s Desk' },
+  journal: { title: 'Edit Journal Entry', sub: 'The Writing Life' },
+  product: { title: 'Edit Shop Item', sub: 'Caroline\'s Shop' },
+};
+
+function openEditor(type, existing) {
+  _editingType = type;
+  _editingId = existing ? existing.id : null;
+  const labels = existing ? editorEditLabels[type] : editorLabels[type];
+  document.getElementById('editor-title-label').textContent = labels.title;
+  document.getElementById('editor-sub-label').textContent = labels.sub;
+  document.getElementById('cms-product-fields').style.display = type === 'product' ? 'block' : 'none';
+  document.getElementById('editor-save-btn').textContent = existing ? 'Save Changes' : 'Publish';
+  document.getElementById('cms-id').value = existing ? existing.id : '';
+  document.getElementById('cms-type').value = type;
+  document.getElementById('cms-title').value = existing ? (existing.title || '') : '';
+  document.getElementById('cms-image').value = existing ? (existing.image || '') : '';
+  document.getElementById('cms-excerpt').value = existing ? (existing.excerpt || '') : '';
+  document.getElementById('cms-body').value = existing ? (existing.body || '') : '';
+  document.getElementById('cms-price').value = existing ? (existing.price || '') : '';
+  document.getElementById('cms-buylink').value = existing ? (existing.buylink || '') : '';
+  document.getElementById('editor-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('cms-title').focus(), 100);
+}
+
+function closeEditor() {
+  document.getElementById('editor-overlay').classList.remove('open');
+}
+
+document.getElementById('editor-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeEditor();
+});
+
+async function saveItem() {
+  const type = document.getElementById('cms-type').value;
+  const existingId = document.getElementById('cms-id').value;
+  const title = document.getElementById('cms-title').value.trim();
+  if (!title) { showToast('Please add a title first.', false); return; }
+
+  const item = {
+    id: existingId || 'item_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    title,
+    image:   document.getElementById('cms-image').value.trim(),
+    excerpt: document.getElementById('cms-excerpt').value.trim(),
+    body:    document.getElementById('cms-body').value,
+    price:   document.getElementById('cms-price').value.trim(),
+    buylink: document.getElementById('cms-buylink').value.trim(),
+    updated: Date.now(),
+  };
+
+  const key = type === 'article' ? 'articles' : type === 'journal' ? 'journal' : 'products';
+  const btn = document.getElementById('editor-save-btn');
+  btn.textContent = 'Saving...';
+  btn.disabled = true;
+
+  try {
+    if (existingId) {
+      const idx = _cache[key].findIndex(i => i.id === existingId);
+      if (idx >= 0) { item.created = _cache[key][idx].created; _cache[key][idx] = item; }
+      await db.collection(key).doc(item.id).set(item);
+    } else {
+      item.created = Date.now();
+      _cache[key].unshift(item);
+      await db.collection(key).doc(item.id).set(item);
+    }
+    closeEditor();
+    renderAll();
+    showToast(existingId ? '✓ Updated successfully!' : '✓ Published! Your readers can see it now.', true);
+  } catch(e) {
+    showToast('Error saving. Please try again.', false);
+  } finally {
+    btn.textContent = existingId ? 'Save Changes' : 'Publish';
+    btn.disabled = false;
+  }
+}
+
+function editItem(type, id) {
+  const key = type === 'article' ? 'articles' : type === 'journal' ? 'journal' : 'products';
+  const item = _cache[key].find(i => i.id === id);
+  if (item) openEditor(type, item);
+}
+
+async function deleteItem(type, id, title) {
+  if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
+  const key = type === 'article' ? 'articles' : type === 'journal' ? 'journal' : 'products';
+  _cache[key] = _cache[key].filter(i => i.id !== id);
+  try {
+    await db.collection(key).doc(id).delete();
+    renderAll();
+    showToast('Deleted.', false);
+  } catch(e) {
+    showToast('Error deleting. Please try again.', false);
+  }
+}
+
+function insertTag(tag) {
+  const ta = document.getElementById('cms-body');
+  const s = ta.selectionStart, e = ta.selectionEnd, sel = ta.value.substring(s, e);
+  const map = {
+    h2: '<h2>' + (sel || 'Heading') + '</h2>',
+    h3: '<h3>' + (sel || 'Subheading') + '</h3>',
+    b:  '<b>' + (sel || 'bold text') + '</b>',
+    i:  '<i>' + (sel || 'italic text') + '</i>',
+    blockquote: '<blockquote>' + (sel || 'A beautiful quote...') + '</blockquote>',
+    img: '<img src="' + (sel || 'paste-image-url') + '" alt="description" />',
+    p:  '<p>' + (sel || 'Your paragraph...') + '</p>',
+    a:  '<a href="URL">' + (sel || 'link text') + '</a>',
+  };
+  const ins = map[tag] || '';
+  ta.value = ta.value.substring(0, s) + ins + ta.value.substring(e);
+  ta.focus();
+  ta.selectionStart = ta.selectionEnd = s + ins.length;
+}
+
+/* ═══════════════════════════════════════
+   PASSWORD CHANGE
+═══════════════════════════════════════ */
+function openChpw() { document.getElementById('chpw-overlay').classList.add('open'); }
+function closeChpw() { document.getElementById('chpw-overlay').classList.remove('open'); }
+document.getElementById('chpw-overlay').addEventListener('click', function(e) { if (e.target === this) closeChpw(); });
+
+async function doChangePasswordOverlay() {
+  await _changePassword(
+    document.getElementById('chpw-cur').value,
+    document.getElementById('chpw-new').value,
+    document.getElementById('chpw-confirm').value,
+    document.getElementById('chpw-msg')
+  );
+}
+
+async function doChangePassword() {
+  await _changePassword(
+    document.getElementById('s-cur').value,
+    document.getElementById('s-new').value,
+    document.getElementById('s-confirm').value,
+    document.getElementById('settings-pw-msg')
+  );
+}
+
+async function _changePassword(cur, nw, cf, msgEl) {
+  msgEl.style.display = 'block';
+  if (cur !== _adminPassword) { msgEl.style.color = '#c0392b'; msgEl.textContent = 'Current password is incorrect.'; return; }
+  if (nw.length < 6) { msgEl.style.color = '#c0392b'; msgEl.textContent = 'New password must be at least 6 characters.'; return; }
+  if (nw !== cf) { msgEl.style.color = '#c0392b'; msgEl.textContent = 'New passwords do not match.'; return; }
+  try {
+    await saveAdminPassword(nw);
+    msgEl.style.color = 'var(--sage)';
+    msgEl.textContent = '✓ Password updated!';
+    showToast('Password changed successfully.', true);
+    setTimeout(() => { msgEl.style.display = 'none'; closeChpw(); }, 2000);
+  } catch(e) {
+    msgEl.style.color = '#c0392b';
+    msgEl.textContent = 'Error saving. Please try again.';
+  }
+}
+
+/* ═══════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════ */
+function switchSection(id, label) {
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.querySelector(`[data-section="${id}"]`).classList.add('active');
+  document.getElementById('top-bar-section-label').textContent = label;
+}
+
+/* ═══════════════════════════════════════
+   MOTIVATION
+═══════════════════════════════════════ */
+function showMotivation() {
+  const q = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+  document.getElementById('motivation-quote').textContent = '"' + q.text + '"';
+  document.getElementById('motivation-attr').textContent = q.attr;
+}
+
+/* ═══════════════════════════════════════
+   TOAST
+═══════════════════════════════════════ */
+let _toastTimer;
+function showToast(msg, success = true) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (success ? ' toast--success' : '');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+/* ═══════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════ */
+function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+</script>
+</body>
+</html>
